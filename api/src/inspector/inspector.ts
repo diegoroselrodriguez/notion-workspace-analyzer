@@ -28,6 +28,10 @@ switch (command) {
   case "task":
     await import("./commands/task.command.js");
     break;
+
+  case "timeline":
+    await import("./commands/timeline.command.js");
+    break;
   
   default:
     console.log(`

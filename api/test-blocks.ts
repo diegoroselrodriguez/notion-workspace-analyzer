@@ -13,7 +13,9 @@ const page = pages[0]!;
 console.log("\n=== PÁGINA ===");
 console.log(page.id);
 
-const blocks = await gateway.getBlockChildren(page.id);
+const response = await gateway.getBlockChildren(page.id);
+
+const blocks = response.results as any[];
 
 console.log("\n=== BLOQUES ===");
 
