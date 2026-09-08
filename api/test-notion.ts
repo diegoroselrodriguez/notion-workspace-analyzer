@@ -7,7 +7,7 @@ async function main() {
 
   const notion = getNotionClient();
 
-  const me = await notion.users.me();
+  const me = await notion.users.me({});
 
   console.log(me);
 
