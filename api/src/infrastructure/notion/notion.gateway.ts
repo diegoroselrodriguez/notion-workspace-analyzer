@@ -89,4 +89,14 @@ export class NotionGateway {
       });
     }
 
+    async getPage(pageId: string) {
+
+      const notion = getNotionClient();
+
+      return await notion.pages.retrieve({
+        page_id: pageId,
+      });
+
+    }
+
 }
