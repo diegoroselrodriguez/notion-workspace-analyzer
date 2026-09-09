@@ -14,7 +14,11 @@ if (!task || task.object !== "page") {
 }
 
 console.log("\n===== TAREA =====");
-console.log(task.properties.Nombre.title[0]?.plain_text);
+const titleProperty = task.properties["Nombre"] as {
+  title: { plain_text: string }[];
+};
+
+console.log(titleProperty.title[0]?.plain_text);
 
 const blocks = await gateway.getBlockChildren(task.id);
 

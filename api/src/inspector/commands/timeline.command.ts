@@ -1,6 +1,7 @@
 import { NotionGateway } from "../../infrastructure/notion/notion.gateway.js";
 import { CommentEventParser } from "../../application/parsers/comment-event.parser.js";
 import { TimelineBuilder } from "../../domain/timeline/TimelineBuilder.js";
+import { CommentContextFactory } from "../../application/comments/CommentContextFactory.js";
 
 const gateway = new NotionGateway();
 
@@ -20,10 +21,15 @@ const comments = await gateway.getComments(task.id);
 
 // Convertir comentarios en eventos
 const parser = new CommentEventParser();
+const contextFactory = new CommentContextFactory();
 
-const events = comments.results.map(comment =>
-  parser.parse(comment)
-);
+const events = comments.results.map(comment => {
+
+  const context = contextFactory.create(comment);
+
+  return parser.parse(context);
+
+});
 
 // Construir timeline
 const builder = new TimelineBuilder();

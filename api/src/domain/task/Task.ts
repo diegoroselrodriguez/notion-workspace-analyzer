@@ -1,4 +1,4 @@
-import type { TimelineEvent } from "../timeline/TimelineEvent.js";
+import type { TaskEvent } from "../events/task-event.js";
 
 export class Task {
 
@@ -7,7 +7,7 @@ export class Task {
     public readonly name: string,
     public readonly status: string | null,
     public readonly assignees: string[],
-    public readonly events: TimelineEvent[],
+    public readonly events: TaskEvent[],
 
   ) {}
 

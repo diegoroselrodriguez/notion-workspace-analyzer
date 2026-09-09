@@ -1,6 +1,8 @@
 import { NotionGateway } from "./src/infrastructure/notion/notion.gateway.js";
 import { CommentEventParser } from "./src/application/parsers/comment-event.parser.js";
+import { CommentContextFactory } from "./src/application/comments/CommentContextFactory.js";
 
+const factory = new CommentContextFactory();
 const gateway = new NotionGateway();
 const parser = new CommentEventParser();
 
@@ -24,7 +26,9 @@ console.log("\n===== EVENTOS =====\n");
 
 for (const comment of comments.results) {
 
-  const event = parser.parse(comment);
+  const context = factory.create(comment);
+
+  const event = parser.parse(context);
 
   console.dir(event, {
     depth: null,

@@ -1,6 +1,6 @@
 import type { TaskEvent } from "../../domain/events/task-event.js";
 import { TaskEventType } from "../../domain/events/task-event.js";
-
+import type { CommentContext } from "../../domain/comments/CommentContext.js";
 import { AssignmentRule } from "./rules/assignment.rule.js";
 
 export class CommentEventParser {
@@ -8,10 +8,8 @@ export class CommentEventParser {
     new AssignmentRule(),
   ];
 
-  parse(comment: any): TaskEvent {
-    const text = comment.rich_text
-      .map((item: any) => item.plain_text)
-      .join("");
+  parse(comment: CommentContext): TaskEvent {
+    const text = comment.text;
 
     for (const rule of this.rules) {
       if (rule.matches(text)) {
@@ -21,9 +19,9 @@ export class CommentEventParser {
 
     return {
       type: TaskEventType.COMMENT,
-      author: comment.display_name?.resolved_name ?? "Unknown",
+      author: comment.author,
       text,
-      createdAt: comment.created_time,
+      createdAt: comment.createdAt,
     };
 
   }

@@ -1,11 +1,11 @@
 import { Task } from "../../domain/task/Task.js";
-import type { TimelineEvent } from "../../domain/timeline/TimelineEvent.js";
+import type { TaskEvent } from "../../domain/events/task-event.js";
 
 export class NotionTaskMapper {
 
   toDomain(
     page: any,
-    events: TimelineEvent[],
+    events: TaskEvent[],
   ): Task {
 
     const properties = page.properties;

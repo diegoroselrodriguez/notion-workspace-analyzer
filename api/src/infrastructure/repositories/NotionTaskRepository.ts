@@ -5,11 +5,13 @@ import { CommentEventParser } from "../../application/parsers/comment-event.pars
 import { TimelineBuilder } from "../../domain/timeline/TimelineBuilder.js";
 import { NotionGateway } from "../notion/notion.gateway.js";
 import { NotionTaskMapper } from "../mappers/NotionTaskMapper.js";
+import { CommentContextFactory } from "../../application/comments/CommentContextFactory.js";
 
 export class NotionTaskRepository implements TaskRepository {
 
   constructor(
     private gateway = new NotionGateway(),
+    private contextFactory = new CommentContextFactory(),
     private parser = new CommentEventParser(),
     private timelineBuilder = new TimelineBuilder(),
     private mapper = new NotionTaskMapper(),
@@ -25,9 +27,10 @@ export class NotionTaskRepository implements TaskRepository {
 
     const comments = await this.gateway.getComments(id);
 
-    const events = comments.results.map(comment =>
-      this.parser.parse(comment)
-    );
+    const events = comments.results.map(comment => {
+      const context = this.contextFactory.create(comment);
+      return this.parser.parse(context);
+    });
 
     return this.mapper.toDomain(
       page,
