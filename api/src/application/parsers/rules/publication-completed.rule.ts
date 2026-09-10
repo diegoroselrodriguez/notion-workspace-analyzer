@@ -1,40 +1,33 @@
+import type { CommentContext } from "../../../domain/comments/CommentContext.js";
 import type { TaskEvent } from "../../../domain/events/task-event.js";
 import { TaskEventType } from "../../../domain/events/task-event.js";
 
-import type { CommentContext } from "../../../domain/comments/CommentContext.js";
-
 import type { CommentRule } from "./comment-rule.js";
 
-export class AssignmentRule implements CommentRule {
+export class PublicationCompletedRule implements CommentRule {
 
   matches(context: CommentContext): boolean {
 
     const text = context.text.toLowerCase();
 
     return (
-      text.includes("lo hace") ||
-      text.includes("se encargará") ||
-      text.includes("se encargara")
+      text.includes("publicado") ||
+      text.includes("publicada") ||
+      text.includes("ya está online") ||
+      text.includes("ya esta online") ||
+      text.includes("actualizado")
     );
 
   }
 
   parse(context: CommentContext): TaskEvent {
 
-    const target = context.mentions[0]?.name;
-
-    const event: TaskEvent = {
-      type: TaskEventType.ASSIGNMENT,
+    return {
+      type: TaskEventType.PUBLICATION_COMPLETED,
       author: context.author,
       text: context.text,
       createdAt: context.createdAt,
     };
-
-    if (target) {
-      event.target = target;
-    }
-
-    return event;
 
   }
 
