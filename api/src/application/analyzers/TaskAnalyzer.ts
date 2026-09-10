@@ -9,6 +9,7 @@ export class TaskAnalyzer {
     private currentAssigneeResolver: TaskResolver<string | null>,
     private workflowStatusResolver: TaskResolver<TaskStatus>,
     private leadTimeResolver: TaskResolver<number | null>,
+    private inactiveDaysResolver: TaskResolver<number | null>,
   ) {}
 
   analyze(task: Task): TaskSnapshot {
@@ -21,6 +22,7 @@ export class TaskAnalyzer {
       task.events.at(-1)?.createdAt ?? null,
       task.events.length,
       this.leadTimeResolver.resolve(task),
+      this.inactiveDaysResolver.resolve(task),
     );
 
   }

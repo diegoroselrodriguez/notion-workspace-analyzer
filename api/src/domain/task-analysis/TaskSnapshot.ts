@@ -10,6 +10,7 @@ export class TaskSnapshot {
     public readonly lastActivityAt: string | null,
     public readonly totalEvents: number,
     public readonly leadTime: number | null,
+    public readonly inactiveDays: number | null,
   ) {}
 
 }

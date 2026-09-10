@@ -3,6 +3,7 @@ import { TaskAnalyzer } from "./src/application/analyzers/TaskAnalyzer.js";
 import { CurrentAssigneeResolver } from "./src/application/analyzers/resolvers/CurrentAssigneeResolver.js";
 import { WorkflowStatusResolver } from "./src/application/analyzers/resolvers/WorkflowStatusResolver.js";
 import { LeadTimeResolver } from "./src/application/analyzers/resolvers/LeadTimeResolver.js";
+import { InactiveDaysResolver } from "./src/application/analyzers/resolvers/InactiveDaysResolver.js";
 
 const repository = new NotionTaskRepository();
 
@@ -10,6 +11,7 @@ const analyzer = new TaskAnalyzer(
   new CurrentAssigneeResolver(),
   new WorkflowStatusResolver(),
   new LeadTimeResolver(),
+  new InactiveDaysResolver(),
 );
 
 const tasks = await repository.findRecent(10);
@@ -23,6 +25,7 @@ for (const task of tasks) {
   console.log("Estado:", snapshot.status);
   console.log("Responsable:", snapshot.currentAssignee ?? "-");
   console.log("Eventos:", snapshot.totalEvents);
+  console.log("Días sin actividad:", snapshot.inactiveDays ?? "-");
 
   if (snapshot.leadTime === null) {
     console.log("Lead Time: -");
@@ -32,9 +35,7 @@ for (const task of tasks) {
     const hours = Math.floor((totalMinutes % 1440) / 60);
     const minutes = totalMinutes % 60;
 
-    console.log(
-      `Lead Time: ${days}d ${hours}h ${minutes}m`,
-    );
+    console.log(`Lead Time: ${days}d ${hours}h ${minutes}m`);
   }
 
   console.log();
