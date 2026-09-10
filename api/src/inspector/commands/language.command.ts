@@ -17,8 +17,14 @@ for (const id of TASKS) {
   for (const event of task.events) {
 
     console.log("----------------------------------------");
-    console.log(event.author);
-    console.log(event.text);
+    console.log("Tipo:", event.type);
+    console.log("Autor:", event.author);
+
+    if (event.target) {
+      console.log("Destino:", event.target);
+    }
+
+    console.log("Texto:", event.text);
     console.log();
 
   }

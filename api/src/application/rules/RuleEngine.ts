@@ -1,5 +1,6 @@
-import type { Rule } from "./Rule.js";
+import type { CommentContext } from "../../domain/comments/CommentContext.js";
 import type { TaskEvent } from "../../domain/events/task-event.js";
+import type { Rule } from "./Rule.js";
 
 export class RuleEngine {
 
@@ -8,16 +9,13 @@ export class RuleEngine {
   ) {}
 
   execute(
-    text: string,
-    comment: any,
+    context: CommentContext,
   ): TaskEvent | null {
 
     for (const rule of this.rules) {
 
-      if (rule.matches(text)) {
-
-        return rule.parse(comment);
-
+      if (rule.matches(context)) {
+        return rule.parse(context);
       }
 
     }

@@ -10,7 +10,7 @@ import { CommentContextFactory } from "../../application/comments/CommentContext
 export class NotionTaskRepository implements TaskRepository {
 
   private static readonly DESIGN_DATA_SOURCE_ID =
-  "4f68b74a-6e4f-495e-8f33-864a3feb3796";
+    "4f68b74a-6e4f-495e-8f33-864a3feb3796";
 
   constructor(
     private gateway = new NotionGateway(),
@@ -64,7 +64,6 @@ export class NotionTaskRepository implements TaskRepository {
     );
 
   }
-
 
   async findById(id: string): Promise<Task> {
 

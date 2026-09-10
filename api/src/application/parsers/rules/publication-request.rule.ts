@@ -2,23 +2,18 @@ import type { CommentContext } from "../../../domain/comments/CommentContext.js"
 import type { TaskEvent } from "../../../domain/events/task-event.js";
 import { TaskEventType } from "../../../domain/events/task-event.js";
 
-import type { CommentRule } from "./comment-rule.js";
+import type { Rule } from "../../rules/Rule.js";
 
-export class PublicationCompletedRule implements CommentRule {
+export class PublicationRequestRule implements Rule {
 
   matches(context: CommentContext): boolean {
 
     const text = context.text.toLowerCase();
 
     return (
-      /\bpublicado\b/.test(text) ||
-      /\bpublicada\b/.test(text) ||
-      /\bpublicados\b/.test(text) ||
-      /\bpublicadas\b/.test(text) ||
-      text.includes("ya está online") ||
-      text.includes("ya esta online") ||
-      text.includes("actualizado") ||
-      text.includes("actualizada")
+      /\bpublica\b/.test(text) ||
+      /\bpublicad\b/.test(text) ||
+      /\bpublicar\b/.test(text)
     );
 
   }
@@ -26,7 +21,7 @@ export class PublicationCompletedRule implements CommentRule {
   parse(context: CommentContext): TaskEvent {
 
     return {
-      type: TaskEventType.PUBLICATION_COMPLETED,
+      type: TaskEventType.PUBLICATION_REQUEST,
       author: context.author,
       text: context.text,
       createdAt: context.createdAt,

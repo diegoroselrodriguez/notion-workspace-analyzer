@@ -1,9 +1,10 @@
+import type { CommentContext } from "../../domain/comments/CommentContext.js";
 import type { TaskEvent } from "../../domain/events/task-event.js";
 
 export interface Rule {
 
-  matches(text: string): boolean;
+  matches(context: CommentContext): boolean;
 
-  parse(comment: any): TaskEvent;
+  parse(context: CommentContext): TaskEvent;
 
 }

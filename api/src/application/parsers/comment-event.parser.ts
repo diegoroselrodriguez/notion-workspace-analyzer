@@ -3,24 +3,26 @@ import { TaskEventType } from "../../domain/events/task-event.js";
 
 import type { CommentContext } from "../../domain/comments/CommentContext.js";
 
+import { RuleEngine } from "../rules/RuleEngine.js";
+
 import { AssignmentRule } from "./rules/assignment.rule.js";
+import { PublicationRequestRule } from "./rules/publication-request.rule.js";
 import { PublicationCompletedRule } from "./rules/publication-completed.rule.js";
 
 export class CommentEventParser {
 
-  private rules = [
+  private readonly engine = new RuleEngine([
     new AssignmentRule(),
+    new PublicationRequestRule(),
     new PublicationCompletedRule(),
-  ];
+  ]);
 
   parse(context: CommentContext): TaskEvent {
 
-    for (const rule of this.rules) {
+    const event = this.engine.execute(context);
 
-      if (rule.matches(context)) {
-        return rule.parse(context);
-      }
-
+    if (event) {
+      return event;
     }
 
     return {
