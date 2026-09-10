@@ -4,9 +4,11 @@ import { TaskStatus } from "../../domain/task-status/TaskStatus.js";
 import type { TaskResolver } from "./TaskResolver.js";
 
 export class TaskAnalyzer {
+
   constructor(
     private currentAssigneeResolver: TaskResolver<string | null>,
     private workflowStatusResolver: TaskResolver<TaskStatus>,
+    private leadTimeResolver: TaskResolver<number | null>,
   ) {}
 
   analyze(task: Task): TaskSnapshot {
@@ -18,6 +20,7 @@ export class TaskAnalyzer {
       this.workflowStatusResolver.resolve(task),
       task.events.at(-1)?.createdAt ?? null,
       task.events.length,
+      this.leadTimeResolver.resolve(task),
     );
 
   }

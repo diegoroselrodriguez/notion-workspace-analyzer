@@ -9,6 +9,7 @@ export class TaskSnapshot {
     public readonly status: TaskStatus,
     public readonly lastActivityAt: string | null,
     public readonly totalEvents: number,
+    public readonly leadTime: number | null,
   ) {}
 
 }

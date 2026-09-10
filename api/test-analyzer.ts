@@ -1,23 +1,25 @@
 import { NotionTaskRepository } from "./src/infrastructure/repositories/NotionTaskRepository.js";
 
-import { TaskAnalyzer } from "./src/application/analyzers/TaskAnalyzer.js";
-
-import { CurrentAssigneeResolver } from "./src/application/analyzers/resolvers/CurrentAssigneeResolver.js";
-import { WorkflowStatusResolver } from "./src/application/analyzers/resolvers/WorkflowStatusResolver.js";
-
 const repository = new NotionTaskRepository();
 
-const analyzer = new TaskAnalyzer(
-  new CurrentAssigneeResolver(),
-  new WorkflowStatusResolver(),
-);
+const tasks = await repository.findRecent(10);
 
-const task = await repository.findById(
-  "3b92d23e-2665-8019-ab71-def0075e3361"
-);
+for (const task of tasks) {
 
-const snapshot = analyzer.analyze(task);
+  console.log("\n================================================");
+  console.log(task.name);
+  console.log("================================================");
 
-console.dir(snapshot, {
-  depth: null,
-});
+  for (const event of task.events) {
+
+    console.log(
+      `${event.type} | ${event.author}` +
+      (event.target ? ` -> ${event.target}` : "")
+    );
+
+    console.log(event.text);
+    console.log();
+
+  }
+
+}
