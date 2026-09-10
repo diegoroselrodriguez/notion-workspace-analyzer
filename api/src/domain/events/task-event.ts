@@ -9,11 +9,9 @@ export enum TaskEventType {
 }
 
 export interface TaskEvent {
-
   type: TaskEventType;
   author: string;
   target?: string;
   text: string;
   createdAt: string;
-
 }

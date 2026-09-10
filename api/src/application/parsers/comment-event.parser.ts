@@ -6,6 +6,7 @@ import type { CommentContext } from "../../domain/comments/CommentContext.js";
 import { RuleEngine } from "../rules/RuleEngine.js";
 
 import { AssignmentRule } from "./rules/assignment.rule.js";
+import { DeliveryRule } from "./rules/delivery.rule.js";
 import { PublicationRequestRule } from "./rules/publication-request.rule.js";
 import { PublicationCompletedRule } from "./rules/publication-completed.rule.js";
 
@@ -13,6 +14,7 @@ export class CommentEventParser {
 
   private readonly engine = new RuleEngine([
     new AssignmentRule(),
+    new DeliveryRule(),
     new PublicationRequestRule(),
     new PublicationCompletedRule(),
   ]);
