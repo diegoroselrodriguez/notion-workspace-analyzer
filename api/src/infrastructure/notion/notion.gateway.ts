@@ -1,4 +1,5 @@
 import type { Workspace } from "../../contracts/workspace.js";
+import type { QueryDataSourceParameters } from "@notionhq/client/build/src/api-endpoints.js";
 import { getNotionClient } from "./notion.client.js";
 
 export class NotionGateway {
@@ -71,13 +72,18 @@ export class NotionGateway {
       });
     }
 
-    async queryDataSource(dataSourceId: string) {
+    async queryDataSource(
+      dataSourceId: string,
+      options?: Pick<QueryDataSourceParameters, "page_size" | "sorts">,
+    ) {
+
       const notion = getNotionClient();
 
       return await notion.dataSources.query({
         data_source_id: dataSourceId,
-        page_size: 5,
+        ...options,
       });
+
     }
 
     async getBlockChildren(blockId: string) {
