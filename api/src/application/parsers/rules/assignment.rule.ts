@@ -1,5 +1,6 @@
 import type { TaskEvent } from "../../../domain/events/task-event.js";
 import { TaskEventType } from "../../../domain/events/task-event.js";
+import type { CommentContext } from "../../../domain/comments/CommentContext.js";
 import type { CommentRule } from "./comment-rule.js";
 
 export class AssignmentRule implements CommentRule {
@@ -16,25 +17,22 @@ export class AssignmentRule implements CommentRule {
 
   }
 
-  parse(comment: any): TaskEvent {
+  parse(context: CommentContext): TaskEvent {
 
-    const text = comment.rich_text
-      .map((item: any) => item.plain_text)
-      .join("");
+    const target = context.mentions[0]?.name;
 
-    const target = comment.rich_text.find(
-      (item: any) =>
-        item.type === "mention" &&
-        item.mention.type === "user"
-    )?.plain_text.replace("@", "");
-
-    return {
+    const event: TaskEvent = {
       type: TaskEventType.ASSIGNMENT,
-      author: comment.display_name.resolved_name,
-      target,
-      text,
-      createdAt: comment.created_time,
+      author: context.author,
+      text: context.text,
+      createdAt: context.createdAt,
     };
+
+    if (target) {
+      event.target = target;
+    }
+
+    return event;
 
   }
 
