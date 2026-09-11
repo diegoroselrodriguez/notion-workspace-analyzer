@@ -1,21 +1,44 @@
 {
   "name": "api",
   "version": "1.0.0",
-  "description": "",
+  "description": "InsightFlow API",
+  "type": "module",
   "main": "index.js",
+
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "timeline": "tsx inspector.ts timeline",
+    "dashboard": "tsx dashboard.ts",
+    "workspace": "tsx inspector.ts workspace",
+    "pages": "tsx inspector.ts pages",
+    "blocks": "tsx inspector.ts blocks",
+    "comments": "tsx inspector.ts comments",
+    "databases": "tsx inspector.ts databases",
+    "tasks": "tsx inspector.ts tasks",
+    "task": "tsx inspector.ts task",
+
+    "test:parser": "tsx test-parser.ts",
+    "test:blocks": "tsx test-blocks.ts",
+    "test:comments": "tsx test-comments.ts",
+    "test:structure": "tsx test-structure.ts",
+    "test:workspace": "tsx test-workspace.ts",
+    "test:scan": "tsx test-scan.ts",
+    "test:repository": "tsx test-repository.ts",
+    "test:recent": "tsx test-recent.ts",
+    "test:notion": "tsx test-notion.ts",
+    "test:analyzer": "tsx test-analyzer.ts"
   },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "module",
+
   "dependencies": {
     "@notionhq/client": "^5.26.0",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1"
   },
+
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",

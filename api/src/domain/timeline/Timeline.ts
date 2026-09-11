@@ -1,11 +1,21 @@
-import type { TaskEvent } from "../events/task-event.js";
+import type { TimelineEvent } from "./TimelineEvent.js";
 
 export class Timeline {
 
   constructor(
     public readonly taskId: string,
     public readonly taskName: string,
-    public readonly events: TaskEvent[],
+    public readonly events: TimelineEvent[],
   ) {}
+
+  get participants(): string[] {
+
+    return [
+      ...new Set(
+        this.events.map(e => e.author),
+      ),
+    ];
+
+  }
 
 }

@@ -1,45 +1,51 @@
 import { NotionGateway } from "../../infrastructure/notion/notion.gateway.js";
-import { CommentEventParser } from "../../application/parsers/comment-event.parser.js";
-import { TimelineBuilder } from "../../domain/timeline/TimelineBuilder.js";
+
 import { CommentContextFactory } from "../../application/comments/CommentContextFactory.js";
+import { CommentEventParser } from "../../application/parsers/comment-event.parser.js";
 
-const gateway = new NotionGateway();
+import { TimelineBuilder } from "../../domain/timeline/TimelineBuilder.js";
+import { TimelinePrinter } from "../../presentation/TimelinePrinter.js";
+import { TimelineHtmlRenderer } from "../../presentation/html/TimelineHtmlRenderer.js";
 
-// Data Source de Diseño
-const result = await gateway.queryDataSource(
-  "4f68b74a-6e4f-495e-8f33-864a3feb3796"
-);
+export async function timelineCommand() {
 
-// Elegimos una tarea de ejemplo
-const task = result.results[2] as any;
+  const gateway = new NotionGateway();
 
-console.log("\n===== TAREA =====");
-console.log(task.properties.Nombre.title[0]?.plain_text);
+  const result = await gateway.queryDataSource(
+    "4f68b74a-6e4f-495e-8f33-864a3feb3796"
+  );
 
-// Obtener comentarios
-const comments = await gateway.getComments(task.id);
+  const task = result.results[2];
 
-// Convertir comentarios en eventos
-const parser = new CommentEventParser();
-const contextFactory = new CommentContextFactory();
+  if (!task || !("properties" in task)) {
+    throw new Error("No se encontró la tarea.");
+  }
 
-const events = comments.results.map(comment => {
+  const taskName =
+    (task.properties.Nombre as any)?.title?.[0]?.plain_text ??
+    "Sin nombre";
 
-  const context = contextFactory.create(comment);
+  const comments = await gateway.getComments(task.id);
 
-  return parser.parse(context);
+  const contextFactory = new CommentContextFactory();
+  const parser = new CommentEventParser();
 
-});
+  const events = comments.results.map(comment => {
 
-// Construir timeline
-const builder = new TimelineBuilder();
+    const context = contextFactory.create(comment);
 
-const timeline = builder.build(
-  task.id,
-  task.properties.Nombre.title[0]?.plain_text ?? "",
-  events
-);
+    return parser.parse(context);
 
-console.dir(timeline, {
-  depth: null,
-});
+  });
+
+  const timeline = new TimelineBuilder().build(
+    task.id,
+    taskName,
+    events as any
+  );
+
+  TimelinePrinter.print(timeline);
+
+  TimelineHtmlRenderer.render(timeline);
+
+}

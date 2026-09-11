@@ -29,18 +29,28 @@ switch (command) {
     await import("./commands/task.command.js");
     break;
 
-  case "timeline":
-    await import("./commands/timeline.command.js");
+  case "timeline": {
+    const { timelineCommand } = await import(
+      "./commands/timeline.command.js"
+    );
+
+    await timelineCommand();
+
     break;
+  }
   
   default:
-    console.log(`
-Commands:
+  console.log(`
+    Commands:
 
-workspace
-pages
-blocks
-databases
-comments
-`);
+    workspace
+    pages
+    blocks
+    databases
+    comments
+    tasks
+    task
+    timeline
+
+    `);
 }
