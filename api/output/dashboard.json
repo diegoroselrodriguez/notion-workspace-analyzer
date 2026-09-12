@@ -1,0 +1,225 @@
+{
+  "title": "Resultados H1 2026",
+  "status": "Finalizado",
+  "summary": "InsightFlow reconstruyó automáticamente este proyecto analizando 27 eventos registrados en Notion.",
+  "kpis": [
+    {
+      "label": "Eventos",
+      "value": 27
+    },
+    {
+      "label": "Participantes",
+      "value": 7
+    },
+    {
+      "label": "Asignaciones",
+      "value": 2
+    },
+    {
+      "label": "Entregas",
+      "value": 3
+    },
+    {
+      "label": "Publicaciones",
+      "value": 3
+    },
+    {
+      "label": "Días",
+      "value": 4
+    }
+  ],
+  "activity": [
+    {
+      "name": "Jose",
+      "events": 13
+    },
+    {
+      "name": "Carlos Pérez García",
+      "events": 4
+    },
+    {
+      "name": "Alejandro Bernaola",
+      "events": 3
+    },
+    {
+      "name": "Diego Rosel",
+      "events": 3
+    },
+    {
+      "name": "Roberto López",
+      "events": 2
+    },
+    {
+      "name": "Vanessa Torres",
+      "events": 1
+    },
+    {
+      "name": "Gema Tejedor",
+      "events": 1
+    }
+  ],
+  "timeline": [
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 14:12",
+      "description": "Hola a tod@s! Este jueves 13 publicamos los resultados de DIGI en el primer semestre de 2026, así que ya se pueden ir preparando todas las piezas, incluido el dosier ‘largo’ con las portabilidades y las modificaciones que necesitamos en la página dedicada a los clientes.\n\nLa carpeta de nas ya está creada: \\\\DIGINASMKT\\Marketing\\2026\\097 - Resultados H1 2026"
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 14:13",
+      "description": "En breve os paso los datos para la gráfica de las portabilidades y los cambios que necesitaremos en el dossier largo."
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 14:15",
+      "description": "Por otro lado, también habrá que actualizar el vídeo que usamos en los distintos eventos a los que asistimos y participamos. Ya hay notion abierto Untitled \nPondremos allí también los datos a actualizar."
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 14:49",
+      "description": "Los datos de portabilidades son estos:"
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 14:49",
+      "description": "Móvil 354.600\nFijo 63.900\nTotal 418.600"
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 14:51",
+      "description": "Habría que eliminar la fila del 1T 2024"
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 14:52",
+      "description": "El texto de cabecera se mantiene y el texto al pie cambia a:"
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 14:54",
+      "description": "Resumen de resultados financieros del primer semestre de 2026"
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 14:55",
+      "description": "Este pie también lo llevan las páginas 2 y 3"
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 14:56",
+      "description": "También la portada"
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 15:37",
+      "description": "En cuanto a los cambios, la página 2 se puede dejar preparada con estos textos:\nIngresos\nJunio 2026\nxxxM€\n+Xx%\nJunio 2025\n445M€\n\nEBITDA ajustado\nJunio 2026\nxxxM€\n+Xx%\nJunio 2025\n70M€\n(se mantiene el disclaimer: Ebitda ajustado por arrendamientos\noperativos)\n\nInversión\nJunio 2026\nxxxM€\n+Xx%\nJunio 2025\n169M€\n\nEmpleados\nJunio 2026\nxxxM€\n+Xx%\nJunio 2025\n+9.600M€\n\nAntenas\nJunio 2026\nxxx\n+Xx%\nMarzo 2026\n+900\n(se mantiene el disclaimer: Despliegue iniciado en julio de 2025, sólo disponible\ncomparativa intertrimestral.)\n\nHuella SMART\nJunio 2026\nxxxM hogares\n+Xx%\nJunio 2025\n12,5M hogares\n\nPAG. 3\nMóvil   \nJunio 2026\nxxxxxxxxxx\n+XX%\nJunio 2025\n6.587.000\n\nFibra\nJunio 2026\nxxxxxxxxxx\n+XX%\nJunio 2025\n2.266.000\n\nFijo\nJunio 2026\nxxxxxxxxxx\n+XX%\nJunio 2025\n723.000 \n\nTV\nJunio 2026\nxxxxxxxxxx\n+XX%\nJunio 2025\n90.000\n"
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 15:43",
+      "description": "En la página 3 hay que abrir espacio para un quinto elemento que sería el dato global de clientes. Iría ‘mandando’ sobre el resto de datos desagregados. Sería:\n\nTotal servicios activos\nJunio 2026\nxxxM\n+XX%\nJunio 2025\n9,66M\n\nLa cabecera cambia a:\nResultados financieros primer semestre de 2026 (RGU’s)\n\n"
+    },
+    {
+      "type": "comment",
+      "author": "Jose",
+      "date": "11 ago, 15:46",
+      "description": "Este mismo dato habría que añadirlo también en la creatividad de LinkedIn, igualmente ‘mandando’ sobre los datos desglosados.\n\nCualquier duda, por favor, comentadme ¡Mil gracias!"
+    },
+    {
+      "type": "comment",
+      "author": "Carlos Pérez García",
+      "date": "13 ago, 06:12",
+      "description": "Post Linkedin: \\\\DIGINASMKT\\Marketing\\2026\\097 - Resultados H1 2026\\Linkedin\\Final"
+    },
+    {
+      "type": "comment",
+      "author": "Roberto López",
+      "date": "13 ago, 06:29",
+      "description": "Dossier ESP: //diginasmkt/Marketing/2026/097 - Resultados H1 2026/Dossier/ES/Final/Resultados_H1_2026_ES.pdf"
+    },
+    {
+      "type": "comment",
+      "author": "Roberto López",
+      "date": "13 ago, 07:58",
+      "description": "Dossier ENG para revisión: //diginasmkt/Marketing/2026/097 - Resultados H1 2026/Dossier/ENG/Final/Resultados_H1_2026_ENG.pdf"
+    },
+    {
+      "type": "comment",
+      "author": "Vanessa Torres",
+      "date": "13 ago, 09:31",
+      "description": "Hola @Carlos Pérez García por aquí el texto del DIGI News para maquetar:\n\nZ:\\2026\\0.02 - DIGI Contigo\\DIGI News\\Resultados financieros 1er semestre 2026\n\n¡Gracias! 🙂"
+    },
+    {
+      "type": "assignment",
+      "author": "Carlos Pérez García",
+      "date": "13 ago, 09:31",
+      "description": "Lo hace @Gema Tejedor "
+    },
+    {
+      "type": "assignment",
+      "author": "Carlos Pérez García",
+      "date": "13 ago, 09:32",
+      "description": "Banner DC y Hub se encargará @Diego Rosel "
+    },
+    {
+      "type": "delivery",
+      "author": "Gema Tejedor",
+      "date": "13 ago, 10:19",
+      "description": "@Vanessa Torres aquí tienes el borrador de la entrada de DIGI Contigo ;)\n"
+    },
+    {
+      "type": "delivery",
+      "author": "Alejandro Bernaola",
+      "date": "13 ago, 16:49",
+      "description": "@Diego Rosel @Carlos Pérez García Aquí os dejo Entrada y Banner.\n\nEntrada DH:\nZ:\\2026\\0.11 - Portabilidades\\07_Julio2026\\DIGI Hub FFinal\n\nBanner:\nZ:\\2026\\0.11 - Portabilidades\\07_Julio2026\\Banner DC\n\n"
+    },
+    {
+      "type": "comment",
+      "author": "Carlos Pérez García",
+      "date": "14 ago, 06:28",
+      "description": "Banner DC: \\\\DIGINASMKT\\Marketing\\2026\\097 - Resultados H1 2026\\Banner DC\\Finales"
+    },
+    {
+      "type": "delivery",
+      "author": "Diego Rosel",
+      "date": "14 ago, 06:31",
+      "description": "@Alejandro Bernaola ya tienes la entrada maquetada.\nhttps://digihub.digimobil.es/?p=992587&preview=true"
+    },
+    {
+      "type": "publication",
+      "author": "Alejandro Bernaola",
+      "date": "14 ago, 09:16",
+      "description": "@Diego Rosel Holaa. Publica ya please"
+    },
+    {
+      "type": "publication",
+      "author": "Diego Rosel",
+      "date": "14 ago, 09:17",
+      "description": "@Alejandro Bernaola entrada publicada DIGIHub.\nhttps://digihub.digimobil.es/aumentamos-la-facturacion-un-16-y-crecemos-un-35-en-fibra-smart-hasta-junio/"
+    },
+    {
+      "type": "comment",
+      "author": "Alejandro Bernaola",
+      "date": "14 ago, 09:20",
+      "description": "Untitled   Y el banner también, please"
+    },
+    {
+      "type": "publication",
+      "author": "Diego Rosel",
+      "date": "14 ago, 09:23",
+      "description": "@Alejandro Bernaola banner DC actualizado para todos los idiomas"
+    }
+  ]
+}

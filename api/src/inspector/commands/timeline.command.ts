@@ -1,11 +1,8 @@
-import { NotionGateway } from "../../infrastructure/notion/notion.gateway.js";
-
 import { CommentContextFactory } from "../../application/comments/CommentContextFactory.js";
 import { CommentEventParser } from "../../application/parsers/comment-event.parser.js";
-
 import { TimelineBuilder } from "../../domain/timeline/TimelineBuilder.js";
-import { TimelinePrinter } from "../../presentation/TimelinePrinter.js";
-import { TimelineHtmlRenderer } from "../../presentation/html/TimelineHtmlRenderer.js";
+import { NotionGateway } from "../../infrastructure/notion/notion.gateway.js";
+import { PresentationFacade } from "../../presentation/PresentationFacade.js";
 
 export async function timelineCommand() {
 
@@ -44,8 +41,6 @@ export async function timelineCommand() {
     events as any
   );
 
-  TimelinePrinter.print(timeline);
-
-  TimelineHtmlRenderer.render(timeline);
+  PresentationFacade.render(timeline);
 
 }
