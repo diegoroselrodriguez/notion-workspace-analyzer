@@ -54,71 +54,65 @@ export default function ProjectsSidebar({
 
   return (
 
-    <div className="p-7">
+    <div className="py-4">
 
-      <h1 className="text-4xl font-bold text-white">
+      <div className="mb-6">
 
-        🚀 InsightFlow
-
-      </h1>
-
-      <p className="mt-2 text-slate-400">
-
-        Marketing Intelligence
-
-      </p>
-
-      <div className="mt-12">
-
-        <div className="mb-4 text-xs uppercase tracking-widest text-slate-500">
+        <div className="text-xs font-bold uppercase tracking-[0.3em] text-slate-500">
 
           Proyectos
 
         </div>
 
-        <div className="space-y-3">
+      </div>
 
-          {projects.map(project => (
+      <div className="space-y-2">
 
-            <button
-              key={project.id}
-              onClick={() => onSelect(project.id)}
-              className={`
-                flex
-                w-full
-                items-center
-                justify-between
-                rounded-xl
-                px-4
-                py-3
-                text-left
-                transition
+        {projects.map(project => (
 
-                ${
-                  selected === project.id
-                    ? "bg-blue-600 text-white"
-                    : "text-slate-300 hover:bg-slate-800"
-                }
-              `}
-            >
+          <button
+            key={project.id}
+            onClick={() => onSelect(project.id)}
+            className={`
+              group
+              flex
+              w-full
+              items-center
+              justify-between
+              rounded-2xl
+              px-4
+              py-4
+              text-left
+              transition-all
+              duration-300
 
-              <span>
+              ${
+                selected === project.id
+                  ? "bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg"
+                  : "bg-transparent text-slate-300 hover:bg-slate-800"
+              }
+            `}
+          >
+
+            <div>
+
+              <div className="font-semibold">
 
                 {project.name}
 
-              </span>
+              </div>
 
-              <span>
+            </div>
 
-                {project.status}
+            <div className="text-lg">
 
-              </span>
+              {project.status}
 
-            </button>
+            </div>
 
-          ))}
+          </button>
 
-        </div>
+        ))}
 
       </div>
 

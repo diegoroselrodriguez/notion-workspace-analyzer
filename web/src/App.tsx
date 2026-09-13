@@ -4,8 +4,14 @@ import AppLayout from "./layouts/AppLayout";
 
 import DashboardPage from "./pages/DashboardPage";
 import WorkspacePage from "./pages/WorkspacePage";
+import ArchitecturePage from "./pages/ArchitecturePage";
 
 import ProjectsSidebar from "./features/projects/ProjectsSidebar";
+
+type View =
+  | "workspace"
+  | "project"
+  | "architecture";
 
 export default function App() {
 
@@ -13,7 +19,7 @@ export default function App() {
     useState("resultados");
 
   const [view, setView] =
-    useState<"workspace" | "project">("project");
+    useState<View>("project");
 
   return (
 
@@ -21,35 +27,97 @@ export default function App() {
 
       sidebar={
 
-        <div className="space-y-4">
+        <div className="flex h-full flex-col">
 
-          <div className="rounded-2xl bg-white p-3 shadow">
+          <div className="border-b border-slate-800 px-5 py-5">
 
-            <button
-              onClick={() => setView("workspace")}
-              className="mb-2 w-full rounded-xl bg-slate-900 px-4 py-3 text-white"
-            >
-              🌍 Workspace
-            </button>
+            <div className="text-[11px] font-bold uppercase tracking-[0.35em] text-cyan-400">
 
-            <button
-              onClick={() => setView("project")}
-              className="w-full rounded-xl bg-blue-600 px-4 py-3 text-white"
-            >
-              📁 Proyecto
-            </button>
+              DIGI Marketing
+
+            </div>
+
+            <h1 className="mt-2 text-3xl font-black text-white">
+
+              InsightFlow
+
+            </h1>
+
+            <p className="mt-2 text-xs leading-5 text-slate-400">
+
+              Plataforma inteligente para el análisis automático de proyectos.
+
+            </p>
 
           </div>
 
-          <ProjectsSidebar
-            selected={project}
-            onSelect={(p) => {
+          <div className="space-y-2 p-4">
 
-              setProject(p);
-              setView("project");
+            <MenuButton
+              active={view === "workspace"}
+              icon="🌍"
+              title="Visión global"
+              subtitle="Departamento"
+              onClick={() => setView("workspace")}
+            />
 
-            }}
-          />
+            <MenuButton
+              active={view === "project"}
+              icon="📁"
+              title="Proyecto"
+              subtitle="Panel ejecutivo"
+              onClick={() => setView("project")}
+            />
+
+            <MenuButton
+              active={view === "architecture"}
+              icon="⚙️"
+              title="Cómo funciona"
+              subtitle="Arquitectura"
+              onClick={() => setView("architecture")}
+            />
+
+          </div>
+
+          <div className="flex-1 overflow-y-auto px-4">
+
+            <ProjectsSidebar
+              selected={project}
+              onSelect={(p) => {
+
+                setProject(p);
+                setView("project");
+
+              }}
+            />
+
+          </div>
+
+          <div className="border-t border-slate-800 p-4">
+
+            <div className="rounded-xl bg-slate-800 p-4">
+
+              <div className="text-xs uppercase tracking-widest text-cyan-400">
+
+                Estado
+
+              </div>
+
+              <div className="mt-2 text-white">
+
+                🟢 Conectado con Notion
+
+              </div>
+
+              <div className="mt-3 text-xs text-slate-400">
+
+                React · Express · Notion API
+
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 
@@ -63,11 +131,67 @@ export default function App() {
 
           ? <WorkspacePage />
 
-          : <DashboardPage project={project} />
+          : view === "architecture"
+
+            ? <ArchitecturePage />
+
+            : <DashboardPage project={project} />
 
       }
 
     </AppLayout>
+
+  );
+
+}
+
+function MenuButton({
+  active,
+  icon,
+  title,
+  subtitle,
+  onClick,
+}: {
+  active: boolean;
+  icon: string;
+  title: string;
+  subtitle: string;
+  onClick: () => void;
+}) {
+
+  return (
+
+    <button
+      onClick={onClick}
+      className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 text-left transition ${
+        active
+          ? "bg-blue-600 text-white shadow"
+          : "bg-slate-800 text-slate-300 hover:bg-slate-700"
+      }`}>
+
+      <span className="text-lg">
+
+        {icon}
+
+      </span>
+
+      <div>
+
+        <div className="font-semibold">
+
+          {title}
+
+        </div>
+
+        <div className="text-[11px] opacity-70">
+
+          {subtitle}
+
+        </div>
+
+      </div>
+
+    </button>
 
   );
 

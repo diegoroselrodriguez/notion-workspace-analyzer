@@ -33,77 +33,40 @@ function icon(label: string) {
 
 }
 
-function color(label: string) {
-
-  switch (label) {
-
-    case "Eventos":
-      return "from-blue-500 to-cyan-500";
-
-    case "Participantes":
-      return "from-violet-500 to-fuchsia-500";
-
-    case "Asignaciones":
-      return "from-orange-500 to-amber-500";
-
-    case "Entregas":
-      return "from-emerald-500 to-green-500";
-
-    case "Publicaciones":
-      return "from-pink-500 to-rose-500";
-
-    case "Días":
-      return "from-slate-600 to-slate-800";
-
-    default:
-      return "from-blue-500 to-indigo-500";
-
-  }
-
-}
-
 export default function KPICards({ items }: Props) {
 
   return (
 
-    <div className="grid grid-cols-6 gap-6">
+    <div className="grid grid-cols-6 gap-4">
 
       {items.map(item => (
 
         <div
           key={item.label}
-          className="overflow-hidden rounded-3xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+          className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:border-blue-300 hover:shadow-md"
         >
 
-          <div
-            className={`h-2 bg-gradient-to-r ${color(item.label)}`}
-          />
+          <div className="h-1 bg-gradient-to-r from-blue-600 to-blue-500" />
 
-          <div className="p-6">
+          <div className="p-4">
 
             <div className="flex items-center justify-between">
 
-              <div className="text-4xl">
+              <div className="text-2xl">
 
                 {icon(item.label)}
 
               </div>
 
-              <div className="text-xs font-semibold uppercase tracking-widest text-slate-400">
-
-                KPI
-
-              </div>
-
             </div>
 
-            <div className="mt-6 text-5xl font-black text-slate-900">
+            <div className="mt-3 text-4xl font-black text-slate-900">
 
               {item.value}
 
             </div>
 
-            <div className="mt-3 font-medium text-slate-500">
+            <div className="mt-1 text-sm font-medium text-slate-500">
 
               {item.label}
 

@@ -18,77 +18,110 @@ export default function WorkspacePage() {
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
 
   useEffect(() => {
-
-    Api.get("/api/workspace")
-      .then(setWorkspace);
-
+    Api.get("/api/workspace").then(setWorkspace);
   }, []);
 
   if (!workspace) {
-
     return (
-      <div className="p-10">
+      <div className="p-6 text-lg">
         Cargando Workspace...
       </div>
     );
-
   }
 
-  const maxProjects = Math.max(
-    ...workspace.activity.map(p => p.projects),
-    1
-  );
+  const maxProjects = Math.max(...workspace.activity.map(p => p.projects), 1);
 
   return (
 
-    <div className="space-y-8">
+    <div className="space-y-5 p-5">
 
-      <div className="rounded-3xl bg-gradient-to-r from-slate-900 to-indigo-800 p-10 text-white shadow">
+      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white shadow-xl">
 
-        <h1 className="text-6xl font-bold">
+        <div className="flex items-center justify-between px-8 py-6">
 
-          Workspace Intelligence
+          <div>
 
-        </h1>
+            <div className="text-xs font-bold uppercase tracking-[0.35em] text-cyan-300">
 
-        <p className="mt-4 text-2xl text-slate-200">
+              InsightFlow AI
 
-          Visión global del departamento de Marketing.
+            </div>
 
-        </p>
+            <h1 className="mt-2 text-4xl font-black">
+
+              Visión global
+
+            </h1>
+
+            <p className="mt-3 max-w-3xl text-base leading-7 text-slate-300">
+
+              Vista ejecutiva del departamento construida automáticamente a partir de la actividad registrada en Notion.
+
+            </p>
+
+            <div className="mt-4 flex flex-wrap gap-2">
+
+              <Badge>📁 {workspace.projects} proyectos</Badge>
+              <Badge>👥 {workspace.people} personas</Badge>
+              <Badge>🟢 {workspace.completed} finalizados</Badge>
+              <Badge>🟡 {workspace.active} activos</Badge>
+
+            </div>
+
+          </div>
+
+          <div className="rounded-2xl bg-white/10 p-5">
+
+            <div className="text-xs uppercase tracking-widest text-cyan-300">
+
+              Workspace
+
+            </div>
+
+            <div className="mt-3 space-y-2 text-sm">
+
+              <div>✅ Sincronizado</div>
+              <div>🤖 IA activa</div>
+              <div>🕒 Hace unos segundos</div>
+
+            </div>
+
+          </div>
+
+        </div>
 
       </div>
 
-      <div className="grid grid-cols-4 gap-6">
+      <div className="grid grid-cols-4 gap-4">
 
         <Card title="Proyectos" value={workspace.projects} />
-
         <Card title="Finalizados" value={workspace.completed} color="text-green-600" />
-
-        <Card title="En curso" value={workspace.active} color="text-orange-500" />
-
+        <Card title="Activos" value={workspace.active} color="text-blue-600" />
         <Card title="Personas" value={workspace.people} />
 
       </div>
 
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-12 gap-5">
 
-        <div className="rounded-3xl bg-white p-8 shadow">
+        <div className="col-span-5 rounded-2xl bg-white shadow-xl">
 
-          <h2 className="text-4xl font-bold">
+          <div className="border-b border-slate-200 px-5 py-4">
 
-            🔥 Proyectos recientes
+            <h2 className="text-xl font-bold">
 
-          </h2>
+              Proyectos recientes
 
-          <div className="mt-8 space-y-4">
+            </h2>
 
-            {workspace.topProjects.map(project => (
+          </div>
+
+          <div className="space-y-2 p-5">
+
+            {workspace.topProjects.slice(0, 6).map((project, index) => (
 
               <div
-                key={project}
-                className="rounded-2xl bg-slate-50 p-5 text-xl"
-              >
+                key={`${project}-${index}`}
+                className="rounded-xl border border-slate-200 p-3 transition hover:border-blue-300">
 
                 {project}
 
@@ -100,57 +133,54 @@ export default function WorkspacePage() {
 
         </div>
 
-        <div className="rounded-3xl bg-white p-8 shadow">
+        <div className="col-span-7 rounded-2xl bg-white shadow-xl">
 
-          <h2 className="text-4xl font-bold">
+          <div className="border-b border-slate-200 px-5 py-4">
 
-            👥 Carga por responsable
+            <h2 className="text-xl font-bold">
 
-          </h2>
+              Carga por responsable
 
-          <div className="mt-8 space-y-5">
+            </h2>
 
-            {workspace.activity.map(person => {
+          </div>
 
-              const width =
-                (person.projects / maxProjects) * 100;
+          <div className="space-y-4 p-5">
 
-              return (
+            {workspace.activity.map(person => (
 
-                <div key={person.name}>
+              <div key={person.name}>
 
-                  <div className="mb-2 flex items-center justify-between">
+                <div className="mb-2 flex justify-between">
 
-                    <span className="font-medium">
+                  <span className="font-medium">
 
-                      {person.name}
+                    {person.name}
 
-                    </span>
+                  </span>
 
-                    <span className="text-sm font-semibold text-slate-500">
+                  <span className="text-sm font-semibold text-slate-500">
 
-                      {person.projects}
+                    {person.projects}
 
-                    </span>
-
-                  </div>
-
-                  <div className="h-3 w-full overflow-hidden rounded-full bg-slate-200">
-
-                    <div
-                      className="h-full rounded-full bg-blue-600 transition-all"
-                      style={{
-                        width: `${width}%`
-                      }}
-                    />
-
-                  </div>
+                  </span>
 
                 </div>
 
-              );
+                <div className="h-2 rounded-full bg-slate-200">
 
-            })}
+                  <div
+                    className="h-full rounded-full bg-blue-600"
+                    style={{
+                      width: `${(person.projects / maxProjects) * 100}%`
+                    }}
+                  />
+
+                </div>
+
+              </div>
+
+            ))}
 
           </div>
 
@@ -167,7 +197,7 @@ export default function WorkspacePage() {
 function Card({
   title,
   value,
-  color = "text-black"
+  color = "text-slate-900"
 }: {
   title: string;
   value: number;
@@ -176,19 +206,37 @@ function Card({
 
   return (
 
-    <div className="rounded-3xl bg-white p-6 shadow">
+    <div className="rounded-2xl bg-white p-5 shadow-sm">
 
-      <div className="text-xl text-slate-500">
+      <div className="text-sm text-slate-500">
 
         {title}
 
       </div>
 
-      <div className={`mt-3 text-6xl font-bold ${color}`}>
+      <div className={`mt-2 text-5xl font-black ${color}`}>
 
         {value}
 
       </div>
+
+    </div>
+
+  );
+
+}
+
+function Badge({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+
+  return (
+
+    <div className="rounded-full bg-white/10 px-3 py-1 text-sm">
+
+      {children}
 
     </div>
 
