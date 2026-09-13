@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "tsx src/main.ts",
-    "start": "tsx src/main.ts",
+    "dev": "node --import tsx src/main.ts",
+    "start": "node --import tsx src/main.ts",
     "build": "tsc"
   },
   "dependencies": {

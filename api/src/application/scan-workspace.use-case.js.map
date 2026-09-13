@@ -1,0 +1,1 @@
+{"version":3,"file":"scan-workspace.use-case.js","sourceRoot":"","sources":["scan-workspace.use-case.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,gBAAgB,EAAE,MAAM,+CAA+C,CAAC;AAEjF,MAAM,OAAO,oBAAoB;IAEZ,OAAO;IAD1B,YACmB,OAAO,GAAG,IAAI,gBAAgB,EAAE;uBAAhC,OAAO;IACvB,CAAC;IAEJ,OAAO;QACL,OAAO,IAAI,CAAC,OAAO,CAAC,IAAI,EAAE,CAAC;IAC7B,CAAC;CACF"}

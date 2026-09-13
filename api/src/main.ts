@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 
 import dashboardRoutes from "./routes/dashboard.routes.js";
+import workspaceRoutes from "./routes/workspace.routes.js";
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.get("/health", (_req, res) => {
 });
 
 app.use("/api", dashboardRoutes);
+app.use("/api", workspaceRoutes);
 
 const PORT = 3000;
 
