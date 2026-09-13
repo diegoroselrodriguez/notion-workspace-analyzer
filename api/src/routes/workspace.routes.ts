@@ -5,10 +5,14 @@ const router = Router();
 
 router.get("/workspace", async (_req, res) => {
 
+  console.log("🚀 /api/workspace");
+
   try {
 
     const workspace =
       await new GetWorkspaceUseCase().execute();
+
+    console.log("✅ Workspace enviado");
 
     res.json(workspace);
 

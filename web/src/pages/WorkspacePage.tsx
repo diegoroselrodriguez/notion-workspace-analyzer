@@ -7,6 +7,7 @@ type Workspace = {
   active: number;
   people: number;
   topProjects: string[];
+  topPeople: string[];
   activity: {
     name: string;
     projects: number;
@@ -18,110 +19,115 @@ export default function WorkspacePage() {
   const [workspace, setWorkspace] = useState<Workspace | null>(null);
 
   useEffect(() => {
-    Api.get("/api/workspace").then(setWorkspace);
+
+    Api.get("/api/workspace")
+      .then(setWorkspace);
+
   }, []);
 
   if (!workspace) {
+
     return (
-      <div className="p-6 text-lg">
+
+      <div className="p-10">
+
         Cargando Workspace...
+
       </div>
+
     );
+
   }
 
-  const maxProjects = Math.max(...workspace.activity.map(p => p.projects), 1);
+  const maxProjects = Math.max(
+
+    ...workspace.activity.map(p => p.projects),
+
+    1
+
+  );
 
   return (
 
-    <div className="space-y-5 p-5">
+    <div className="space-y-6 p-5">
 
-      <div className="overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white shadow-xl">
+      <div className="rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-blue-900 p-8 text-white shadow-xl">
 
-        <div className="flex items-center justify-between px-8 py-6">
+        <div className="text-xs font-bold uppercase tracking-[0.35em] text-cyan-300">
 
-          <div>
-
-            <div className="text-xs font-bold uppercase tracking-[0.35em] text-cyan-300">
-
-              InsightFlow AI
-
-            </div>
-
-            <h1 className="mt-2 text-4xl font-black">
-
-              Visión global
-
-            </h1>
-
-            <p className="mt-3 max-w-3xl text-base leading-7 text-slate-300">
-
-              Vista ejecutiva del departamento construida automáticamente a partir de la actividad registrada en Notion.
-
-            </p>
-
-            <div className="mt-4 flex flex-wrap gap-2">
-
-              <Badge>📁 {workspace.projects} proyectos</Badge>
-              <Badge>👥 {workspace.people} personas</Badge>
-              <Badge>🟢 {workspace.completed} finalizados</Badge>
-              <Badge>🟡 {workspace.active} activos</Badge>
-
-            </div>
-
-          </div>
-
-          <div className="rounded-2xl bg-white/10 p-5">
-
-            <div className="text-xs uppercase tracking-widest text-cyan-300">
-
-              Workspace
-
-            </div>
-
-            <div className="mt-3 space-y-2 text-sm">
-
-              <div>✅ Sincronizado</div>
-              <div>🤖 IA activa</div>
-              <div>🕒 Hace unos segundos</div>
-
-            </div>
-
-          </div>
+          InsightFlow AI
 
         </div>
+
+        <h1 className="mt-2 text-4xl font-black">
+
+          Visión global del Workspace
+
+        </h1>
+
+        <p className="mt-3 max-w-3xl text-slate-300">
+
+          Análisis agregado de todos los proyectos registrados en Notion.
+
+        </p>
 
       </div>
 
       <div className="grid grid-cols-4 gap-4">
 
-        <Card title="Proyectos" value={workspace.projects} />
-        <Card title="Finalizados" value={workspace.completed} color="text-green-600" />
-        <Card title="Activos" value={workspace.active} color="text-blue-600" />
-        <Card title="Personas" value={workspace.people} />
+        <Card
+          title="Proyectos analizados"
+          value={workspace.projects}
+        />
+
+        <Card
+          title="Personas detectadas"
+          value={workspace.people}
+          color="text-blue-600"
+        />
+
+        <Card
+          title="Responsables principales"
+          value={workspace.topPeople.length}
+          color="text-violet-600"
+        />
+
+        <Card
+          title="Proyectos evaluados"
+          value={workspace.projects}
+          color="text-emerald-600"
+        />
 
       </div>
 
-      <div className="grid grid-cols-12 gap-5">
+      <div className="grid grid-cols-2 gap-5">
 
-        <div className="col-span-5 rounded-2xl bg-white shadow-xl">
+        <div className="rounded-2xl bg-white shadow-lg">
 
-          <div className="border-b border-slate-200 px-5 py-4">
+          <div className="border-b border-slate-200 px-6 py-4">
 
             <h2 className="text-xl font-bold">
 
-              Proyectos recientes
+              📋 Proyectos con menor actividad
 
             </h2>
 
+            <p className="mt-1 text-sm text-slate-500">
+
+              Proyectos detectados con mayor tiempo sin actividad registrada.
+
+            </p>
+
           </div>
 
-          <div className="space-y-2 p-5">
+          <div className="space-y-3 p-5">
 
-            {workspace.topProjects.slice(0, 6).map((project, index) => (
+            {workspace.topProjects.map(project => (
 
               <div
-                key={`${project}-${index}`}
-                className="rounded-xl border border-slate-200 p-3 transition hover:border-blue-300">
+                key={project}
+                className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-blue-300 hover:bg-blue-50"
+              >
 
                 {project}
 
@@ -133,54 +139,67 @@ export default function WorkspacePage() {
 
         </div>
 
-        <div className="col-span-7 rounded-2xl bg-white shadow-xl">
+        <div className="rounded-2xl bg-white shadow-lg">
 
-          <div className="border-b border-slate-200 px-5 py-4">
+          <div className="border-b border-slate-200 px-6 py-4">
 
             <h2 className="text-xl font-bold">
 
-              Carga por responsable
+              👥 Participación por responsable
 
             </h2>
+
+            <p className="mt-1 text-sm text-slate-500">
+
+              Número de proyectos en los que ha participado cada responsable.
+
+            </p>
 
           </div>
 
           <div className="space-y-4 p-5">
 
-            {workspace.activity.map(person => (
+            {workspace.activity.map(person => {
 
-              <div key={person.name}>
+              const width =
+                (person.projects / maxProjects) * 100;
 
-                <div className="mb-2 flex justify-between">
+              return (
 
-                  <span className="font-medium">
+                <div key={person.name}>
 
-                    {person.name}
+                  <div className="mb-2 flex items-center justify-between">
 
-                  </span>
+                    <span className="font-medium">
 
-                  <span className="text-sm font-semibold text-slate-500">
+                      {person.name}
 
-                    {person.projects}
+                    </span>
 
-                  </span>
+                    <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-600">
+
+                      {person.projects}
+
+                    </span>
+
+                  </div>
+
+                  <div className="h-2 overflow-hidden rounded-full bg-slate-200">
+
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-blue-600 to-cyan-500"
+                      style={{
+                        width: `${width}%`
+                      }}
+                    />
+
+                  </div>
 
                 </div>
 
-                <div className="h-2 rounded-full bg-slate-200">
+              );
 
-                  <div
-                    className="h-full rounded-full bg-blue-600"
-                    style={{
-                      width: `${(person.projects / maxProjects) * 100}%`
-                    }}
-                  />
-
-                </div>
-
-              </div>
-
-            ))}
+            })}
 
           </div>
 
@@ -206,37 +225,19 @@ function Card({
 
   return (
 
-    <div className="rounded-2xl bg-white p-5 shadow-sm">
+    <div className="rounded-2xl bg-white p-5 shadow-lg">
 
-      <div className="text-sm text-slate-500">
+      <div className="text-sm font-medium text-slate-500">
 
         {title}
 
       </div>
 
-      <div className={`mt-2 text-5xl font-black ${color}`}>
+      <div className={`mt-2 text-4xl font-black ${color}`}>
 
         {value}
 
       </div>
-
-    </div>
-
-  );
-
-}
-
-function Badge({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-
-  return (
-
-    <div className="rounded-full bg-white/10 px-3 py-1 text-sm">
-
-      {children}
 
     </div>
 

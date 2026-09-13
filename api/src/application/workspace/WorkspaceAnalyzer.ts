@@ -19,17 +19,21 @@ export class WorkspaceAnalyzer {
     projects.forEach(project => {
 
       const status =
+        project.properties?.Estado?.status?.name ??
+        project.properties?.Estado?.select?.name ??
         project.properties?.Status?.status?.name ??
         project.properties?.Status?.select?.name ??
         "";
 
-      const value = status.toLowerCase();
+      const value =
+        status.toLowerCase();
 
       if (
 
         value.includes("final") ||
         value.includes("done") ||
-        value.includes("cerr")
+        value.includes("cerr") ||
+        value.includes("complet")
 
       ) {
 
@@ -57,7 +61,11 @@ export class WorkspaceAnalyzer {
 
         stale
           .slice(0, 10)
-          .map(project => project.name),
+          .map(project =>
+            project.name?.trim()
+              ? project.name
+              : "Proyecto sin título"
+          ),
 
       topPeople:
 
