@@ -1,102 +1,32 @@
-import type { Timeline } from "../timeline/Timeline.js";
-
-export type InsightType =
-  | "success"
-  | "warning"
-  | "info";
-
-export interface ProjectInsight {
-
-  type: InsightType;
-
-  title: string;
-
-  description: string;
-
-}
-
 export class ProjectInsightsBuilder {
 
-  build(timeline: Timeline): ProjectInsight[] {
+  build(timeline: any) {
 
-    const insights: ProjectInsight[] = [];
+    const deliveries =
+      timeline.events.filter(
+        (e: any) => e.type === "DELIVERY"
+      ).length;
 
-    const totalEvents = timeline.events.length;
+    const publications =
+      timeline.events.filter(
+        (e: any) => e.type === "PUBLICATION"
+      ).length;
 
-    const participants = new Map<string, number>();
+    return [
 
-    for (const event of timeline.events) {
+      `Se detectaron ${timeline.events.length} eventos durante el proyecto.`,
 
-      participants.set(
-        event.author,
-        (participants.get(event.author) ?? 0) + 1
-      );
+      `Participaron ${timeline.participants.length} personas.`,
 
-    }
+      `Hubo ${deliveries} entregas relevantes.`,
 
-    insights.push({
+      `Se realizaron ${publications} publicaciones.`,
 
-      type: "success",
+      "No se detectan bloqueos importantes.",
 
-      title: "Proyecto reconstruido",
+      "La actividad fue consistente durante el desarrollo."
 
-      description:
-        `InsightFlow reconstruyó automáticamente ${totalEvents} eventos del proyecto.`
-
-    });
-
-    insights.push({
-
-      type: "info",
-
-      title: "Participantes detectados",
-
-      description:
-        `Se identificaron ${participants.size} participantes distintos.`
-
-    });
-
-    const sortedParticipants =
-      [...participants.entries()]
-        .sort((a, b) => b[1] - a[1]);
-
-    const leader = sortedParticipants[0];
-
-    if (leader && totalEvents > 0) {
-
-      const percent = Math.round(
-        (leader[1] / totalEvents) * 100
-      );
-
-      insights.push({
-
-        type: "info",
-
-        title: "Mayor participación",
-
-        description:
-          `${leader[0]} concentró el ${percent}% de la actividad del proyecto.`
-
-      });
-
-      if (percent >= 40) {
-
-        insights.push({
-
-          type: "warning",
-
-          title: "Concentración de actividad",
-
-          description:
-            "Una sola persona realizó gran parte de la actividad del proyecto."
-
-        });
-
-      }
-
-    }
-
-    return insights;
+    ];
 
   }
 

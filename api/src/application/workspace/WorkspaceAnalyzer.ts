@@ -1,4 +1,5 @@
 import { ActivityAnalyzer } from "./analyzers/ActivityAnalyzer.js";
+import { StaleProjectsAnalyzer } from "./analyzers/StaleProjectsAnalyzer.js";
 
 type Project = any;
 
@@ -8,6 +9,9 @@ export class WorkspaceAnalyzer {
 
     const activity =
       new ActivityAnalyzer().analyze(projects);
+
+    const stale =
+      new StaleProjectsAnalyzer().analyze(projects);
 
     let completed = 0;
     let active = 0;
@@ -22,9 +26,11 @@ export class WorkspaceAnalyzer {
       const value = status.toLowerCase();
 
       if (
+
         value.includes("final") ||
         value.includes("done") ||
         value.includes("cerr")
+
       ) {
 
         completed++;
@@ -37,31 +43,6 @@ export class WorkspaceAnalyzer {
 
     });
 
-    const topProjects =
-
-      projects
-
-        .map(project => ({
-
-          name:
-            project.properties?.Nombre?.title?.[0]?.plain_text ??
-            "Sin nombre",
-
-          updated:
-            project.last_edited_time
-
-        }))
-
-        .sort(
-          (a, b) =>
-            new Date(b.updated).getTime() -
-            new Date(a.updated).getTime()
-        )
-
-        .slice(0, 10)
-
-        .map(project => project.name);
-
     return {
 
       projects: projects.length,
@@ -72,14 +53,21 @@ export class WorkspaceAnalyzer {
 
       people: activity.length,
 
-      topProjects,
+      topProjects:
+
+        stale
+          .slice(0, 10)
+          .map(project => project.name),
 
       topPeople:
+
         activity
           .slice(0, 10)
           .map(person => person.name),
 
-      activity
+      activity,
+
+      stale
 
     };
 

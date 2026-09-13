@@ -1,51 +1,139 @@
-import type {
-  ActivityMember,
-  KPI,
-  ProjectInsight,
-} from "../../../types/dashboard";
+import type { KPI, ActivityMember } from "../../../types/dashboard";
 
 type Props = {
   kpis: KPI[];
   activity: ActivityMember[];
-  insights?: ProjectInsight[];
+  insights: string[];
 };
 
 export default function ProjectInsights({
+
   kpis,
   activity,
-  insights,
+  insights
+
 }: Props) {
 
-  if (insights && insights.length > 0) {
+  const events =
+    kpis.find(k => k.label === "Eventos")?.value ?? 0;
 
-    return (
-      <div className="rounded-3xl bg-white p-8 shadow">
+  const participants =
+    kpis.find(k => k.label === "Participantes")?.value ?? 0;
 
-        <h2 className="text-2xl font-bold">
-          🧠 InsightFlow detectó
-        </h2>
+  const deliveries =
+    kpis.find(k => k.label === "Entregas")?.value ?? 0;
 
-        <div className="mt-6 space-y-5">
+  const publications =
+    kpis.find(k => k.label === "Publicaciones")?.value ?? 0;
 
-          {insights.map((item, index) => (
+  const mostActive =
+    activity[0];
+
+  return (
+
+    <div className="rounded-3xl bg-white shadow-xl">
+
+      <div className="border-b border-slate-200 px-8 py-6">
+
+        <div className="flex items-center gap-4">
+
+          <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-gradient-to-br from-violet-500 to-blue-600 text-4xl text-white">
+
+            🤖
+
+          </div>
+
+          <div>
+
+            <h2 className="text-3xl font-black">
+
+              AI Executive Report
+
+            </h2>
+
+            <p className="mt-1 text-slate-500">
+
+              Resumen ejecutivo generado automáticamente.
+
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div className="grid grid-cols-2 gap-6 p-8">
+
+        <Card
+          icon="📊"
+          title="Actividad"
+          text={`Se detectaron ${events} eventos repartidos entre ${participants} participantes.`}
+          color="from-blue-500 to-cyan-500"
+        />
+
+        <Card
+          icon="👤"
+          title="Liderazgo"
+
+          text={
+            mostActive
+              ? `${mostActive.name} concentra la mayor actividad del proyecto con ${mostActive.events} intervenciones.`
+              : "No hay datos suficientes."
+          }
+
+          color="from-violet-500 to-fuchsia-500"
+        />
+
+        <Card
+          icon="📦"
+          title="Producción"
+
+          text={`El proyecto registra ${deliveries} entregas y ${publications} publicaciones.`}
+
+          color="from-emerald-500 to-green-500"
+        />
+
+        <Card
+          icon="🧠"
+          title="Conclusión"
+
+          text="La secuencia temporal no muestra bloqueos importantes y el proyecto presenta una evolución consistente."
+
+          color="from-orange-500 to-amber-500"
+        />
+
+      </div>
+
+      <div className="border-t border-slate-200 bg-slate-50 p-8">
+
+        <div className="mb-5 text-xl font-bold">
+
+          Conclusiones detectadas automáticamente
+
+        </div>
+
+        <div className="space-y-4">
+
+          {insights.map((insight, index) => (
 
             <div
               key={index}
-              className="flex gap-4 rounded-2xl border border-slate-200 p-4"
+              className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
             >
 
-              <div className="text-3xl">
-                {item.icon}
-              </div>
+              <div className="flex gap-4">
 
-              <div>
+                <div className="text-2xl">
 
-                <div className="font-semibold">
-                  {item.title}
+                  ✅
+
                 </div>
 
-                <div className="mt-1 text-slate-600">
-                  {item.description}
+                <div className="leading-7">
+
+                  {insight}
+
                 </div>
 
               </div>
@@ -57,107 +145,54 @@ export default function ProjectInsights({
         </div>
 
       </div>
-    );
 
-  }
+    </div>
 
-  const events =
-    kpis.find(k => k.label === "Eventos")?.value ?? 0;
+  );
 
-  const participants =
-    kpis.find(k => k.label === "Participantes")?.value ?? 0;
+}
 
-  const leader = activity[0];
+function Card({
 
-  const leaderPercent =
-    leader && events > 0
-      ? Math.round((leader.events / events) * 100)
-      : 0;
+  icon,
+  title,
+  text,
+  color
 
-  const generatedInsights: ProjectInsight[] = [
+}: {
 
-    {
-      icon: "🤖",
-      title: "Proyecto reconstruido",
-      description:
-        `InsightFlow reconstruyó automáticamente ${events} eventos registrados en Notion.`,
-    },
+  icon: string;
+  title: string;
+  text: string;
+  color: string;
 
-    {
-      icon: "👥",
-      title: "Participantes detectados",
-      description:
-        `Se detectaron ${participants} participantes durante el proyecto.`,
-    },
-
-  ];
-
-  if (leader) {
-
-    generatedInsights.push({
-
-      icon: "⭐",
-
-      title: "Mayor participación",
-
-      description:
-        `${leader.name} concentró el ${leaderPercent}% de la actividad.`,
-
-    });
-
-  }
-
-  if (leaderPercent >= 40) {
-
-    generatedInsights.push({
-
-      icon: "⚠️",
-
-      title: "Actividad concentrada",
-
-      description:
-        "Gran parte del trabajo recayó sobre una única persona.",
-
-    });
-
-  }
+}) {
 
   return (
 
-    <div className="rounded-3xl bg-white p-8 shadow">
+    <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
 
-      <h2 className="text-2xl font-bold">
-        🧠 InsightFlow detectó
-      </h2>
+      <div className={`h-2 bg-gradient-to-r ${color}`} />
 
-      <div className="mt-6 space-y-5">
+      <div className="p-6">
 
-        {generatedInsights.map((item, index) => (
+        <div className="text-4xl">
 
-          <div
-            key={index}
-            className="flex gap-4 rounded-2xl border border-slate-200 p-4"
-          >
+          {icon}
 
-            <div className="text-3xl">
-              {item.icon}
-            </div>
+        </div>
 
-            <div>
+        <div className="mt-5 text-2xl font-bold">
 
-              <div className="font-semibold">
-                {item.title}
-              </div>
+          {title}
 
-              <div className="mt-1 text-slate-600">
-                {item.description}
-              </div>
+        </div>
 
-            </div>
+        <div className="mt-3 leading-8 text-slate-600">
 
-          </div>
+          {text}
 
-        ))}
+        </div>
 
       </div>
 

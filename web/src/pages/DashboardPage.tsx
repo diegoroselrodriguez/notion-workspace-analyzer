@@ -53,6 +53,7 @@ export default function DashboardPage({ project }: Props) {
         title={dashboard.title}
         status={dashboard.status}
         summary={dashboard.summary}
+        insights={dashboard.insights}
       />
 
       <ProjectQuestionBox

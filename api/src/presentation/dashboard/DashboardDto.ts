@@ -6,21 +6,34 @@ export interface DashboardDto {
 
   summary: string;
 
+  insights: string[];
+
   kpis: {
+
     label: string;
+
     value: number;
+
   }[];
 
   activity: {
+
     name: string;
+
     events: number;
+
   }[];
 
   timeline: {
+
     type: string;
+
     author: string;
+
     date: string;
+
     description: string;
+
   }[];
 
 }

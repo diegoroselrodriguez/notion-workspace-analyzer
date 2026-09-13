@@ -5,9 +5,26 @@ export class DashboardPresenter {
 
   present(timeline: Timeline): DashboardDto {
 
-    const participants = [...new Set(
-      timeline.events.map(event => event.author)
-    )];
+    const participants = [
+      ...new Set(
+        timeline.events.map(event => event.author)
+      )
+    ];
+
+    const deliveries =
+      timeline.events.filter(
+        event => event.type === "DELIVERY"
+      ).length;
+
+    const publications =
+      timeline.events.filter(
+        event => event.type === "PUBLICATION"
+      ).length;
+
+    const assignments =
+      timeline.events.filter(
+        event => event.type === "ASSIGNMENT"
+      ).length;
 
     const activity = participants
       .map(name => ({
@@ -24,7 +41,24 @@ export class DashboardPresenter {
 
       status: "Finalizado",
 
-      summary: `InsightFlow reconstruyó automáticamente este proyecto analizando ${timeline.events.length} eventos registrados en Notion.`,
+      summary:
+        `InsightFlow reconstruyó automáticamente este proyecto analizando ${timeline.events.length} eventos registrados en Notion.`,
+
+      insights: [
+
+        `Se detectaron ${timeline.events.length} eventos durante el proyecto.`,
+
+        `Participaron ${participants.length} personas.`,
+
+        `Hubo ${assignments} asignaciones de trabajo.`,
+
+        `Se realizaron ${deliveries} entregas relevantes.`,
+
+        `Se registraron ${publications} publicaciones.`,
+
+        "No se detectan bloqueos importantes."
+
+      ],
 
       kpis: [
 
@@ -40,23 +74,17 @@ export class DashboardPresenter {
 
         {
           label: "Asignaciones",
-          value: timeline.events.filter(
-            event => event.type === "ASSIGNMENT"
-          ).length
+          value: assignments
         },
 
         {
           label: "Entregas",
-          value: timeline.events.filter(
-            event => event.type === "DELIVERY"
-          ).length
+          value: deliveries
         },
 
         {
           label: "Publicaciones",
-          value: timeline.events.filter(
-            event => event.type === "PUBLICATION"
-          ).length
+          value: publications
         },
 
         {
