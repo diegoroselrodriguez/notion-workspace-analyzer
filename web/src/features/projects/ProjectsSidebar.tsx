@@ -25,21 +25,15 @@ const projects: Project[] = [
   },
 
   {
-    id: "diginews",
-    name: "DIGI News",
-    status: "🟡",
-  },
-
-  {
     id: "portabilidades",
-    name: "Portabilidades",
+    name: "Portabilidades agosto 2026",
     status: "🟢",
   },
 
   {
-    id: "fantasy",
-    name: "Fantasy DIGI",
-    status: "🔵",
+    id: "venta-smart",
+    name: "Venta SMART en DIGI Hub 2026",
+    status: "🟢",
   },
 
 ];

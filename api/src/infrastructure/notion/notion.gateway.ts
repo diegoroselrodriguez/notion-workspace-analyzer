@@ -3,7 +3,9 @@ import type { QueryDataSourceParameters } from "@notionhq/client/build/src/api-e
 import { getNotionClient } from "./notion.client.js";
 
 export class NotionGateway {
+
   async getWorkspace(): Promise<Workspace> {
+
     const notion = getNotionClient();
 
     const me = await notion.users.me({});
@@ -22,87 +24,103 @@ export class NotionGateway {
       botId: me.id,
       botName: me.name ?? "Unknown Bot",
     };
+
   }
 
   async getRootPages() {
-        const notion = getNotionClient();
 
-        const response = await notion.search({
-            filter: {
-            property: "object",
-            value: "page",
-            },
-            page_size: 100,
-        });
+    const notion = getNotionClient();
 
-        return response.results;
-    }
+    const response = await notion.search({
+      filter: {
+        property: "object",
+        value: "page",
+      },
+      page_size: 100,
+    });
 
-    async getComments(blockId: string) {
-        const notion = getNotionClient();
+    return response.results;
 
-        return await notion.comments.list({
-            block_id: blockId,
-            page_size: 100,
-        });
-    }
-    
-    async getDatabase(databaseId: string) {
-      const notion = getNotionClient();
+  }
 
-      return await notion.databases.retrieve({
-        database_id: databaseId,
-      });
-    }
+  async getComments(blockId: string) {
 
-    async getBlocks(blockId: string) {
-      const notion = getNotionClient();
+    const notion = getNotionClient();
 
-      return await notion.blocks.children.list({
-        block_id: blockId,
-        page_size: 100,
-      });
-    }
+    return await notion.comments.list({
+      block_id: blockId,
+      page_size: 100,
+    });
 
-    async getDataSource(dataSourceId: string) {
-      const notion = getNotionClient();
+  }
 
-      return await notion.dataSources.retrieve({
-        data_source_id: dataSourceId,
-      });
-    }
+  async getDatabase(databaseId: string) {
 
-    async queryDataSource(
-      dataSourceId: string,
-      options?: Pick<QueryDataSourceParameters, "page_size" | "sorts">,
-    ) {
+    const notion = getNotionClient();
 
-      const notion = getNotionClient();
+    return await notion.databases.retrieve({
+      database_id: databaseId,
+    });
 
-      return await notion.dataSources.query({
-        data_source_id: dataSourceId,
-        ...options,
-      });
+  }
 
-    }
+  async getBlocks(blockId: string) {
 
-    async getBlockChildren(blockId: string) {
-      const notion = getNotionClient();
+    const notion = getNotionClient();
 
-      return await notion.blocks.children.list({
-        block_id: blockId,
-        page_size: 100,
-      });
-    }
+    return await notion.blocks.children.list({
+      block_id: blockId,
+      page_size: 100,
+    });
 
-    async getPage(pageId: string) {
+  }
 
-      const notion = getNotionClient();
+  async getDataSource(dataSourceId: string) {
 
-      return await notion.pages.retrieve({
-        page_id: pageId,
-      });
+    const notion = getNotionClient();
 
-    }
+    return await notion.dataSources.retrieve({
+      data_source_id: dataSourceId,
+    });
+
+  }
+
+  async queryDataSource(
+    dataSourceId: string,
+    options?: Pick<
+      QueryDataSourceParameters,
+      "page_size" | "sorts" | "start_cursor"
+    >,
+  ) {
+
+    const notion = getNotionClient();
+
+    return await notion.dataSources.query({
+      data_source_id: dataSourceId,
+      ...options,
+    });
+
+  }
+
+  async getBlockChildren(blockId: string) {
+
+    const notion = getNotionClient();
+
+    return await notion.blocks.children.list({
+      block_id: blockId,
+      page_size: 100,
+    });
+
+  }
+
+  async getPage(pageId: string) {
+
+    const notion = getNotionClient();
+
+    return await notion.pages.retrieve({
+      page_id: pageId,
+    });
+
+  }
 
 }

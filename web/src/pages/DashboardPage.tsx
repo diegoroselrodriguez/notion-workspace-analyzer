@@ -8,11 +8,11 @@ import TeamActivity from "../features/dashboard/TeamActivity";
 import ProjectTimeline from "../features/timeline/ProjectTimeline";
 
 import LoadingScreen from "../components/LoadingScreen";
+import NotionStatus from "../components/NotionStatus";
 
 import { DashboardService } from "../services/dashboard.service";
 
 import type { DashboardData } from "../types/dashboard";
-import NotionStatus from "../components/NotionStatus";
 
 type Props = {
   project: string;
@@ -26,6 +26,9 @@ export default function DashboardPage({ project }: Props) {
   const [loading, setLoading] =
     useState(true);
 
+  const [error, setError] =
+    useState<string | null>(null);
+
   const [lastSync, setLastSync] =
     useState("");
 
@@ -35,6 +38,7 @@ export default function DashboardPage({ project }: Props) {
 
     setLoading(true);
     setDashboard(null);
+    setError(null);
 
     Promise.all([
       DashboardService.getDashboard(project),
@@ -57,10 +61,27 @@ export default function DashboardPage({ project }: Props) {
           })
         );
 
-        setLoading(false);
+      })
+      .catch((error: unknown) => {
+
+        if (!mounted) return;
+
+        console.error(error);
+
+        setError(
+          error instanceof Error
+            ? error.message
+            : "No se ha podido cargar el proyecto."
+        );
 
       })
-      .catch(console.error);
+      .finally(() => {
+
+        if (!mounted) return;
+
+        setLoading(false);
+
+      });
 
     return () => {
 
@@ -70,9 +91,77 @@ export default function DashboardPage({ project }: Props) {
 
   }, [project]);
 
-  if (loading || !dashboard) {
+  if (loading) {
 
     return <LoadingScreen />;
+
+  }
+
+  if (error) {
+
+    return (
+
+      <div className="flex min-h-full items-center justify-center p-10">
+
+        <div className="w-full max-w-2xl rounded-3xl border border-red-200 bg-white p-8 shadow-xl">
+
+          <div className="text-5xl">
+            ⚠️
+          </div>
+
+          <h1 className="mt-5 text-3xl font-black text-slate-900">
+
+            No se pudo cargar el proyecto
+
+          </h1>
+
+          <p className="mt-3 leading-7 text-slate-600">
+
+            InsightFlow no ha podido obtener la información necesaria para construir el panel ejecutivo.
+
+          </p>
+
+          <div className="mt-6 rounded-2xl border border-red-200 bg-red-50 p-4">
+
+            <div className="text-xs font-bold uppercase tracking-widest text-red-600">
+
+              Detalle
+
+            </div>
+
+            <div className="mt-2 text-sm text-red-800">
+
+              {error}
+
+            </div>
+
+          </div>
+
+          <p className="mt-6 text-sm text-slate-500">
+
+            Puedes seleccionar otro proyecto en el menú lateral o volver a intentarlo más tarde.
+
+          </p>
+
+        </div>
+
+      </div>
+
+    );
+
+  }
+
+  if (!dashboard) {
+
+    return (
+
+      <div className="p-10">
+
+        No hay información disponible para este proyecto.
+
+      </div>
+
+    );
 
   }
 
