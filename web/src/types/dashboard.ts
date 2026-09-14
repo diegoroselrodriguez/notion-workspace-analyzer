@@ -2,7 +2,10 @@ export type TimelineEventType =
   | "comment"
   | "assignment"
   | "delivery"
-  | "publication";
+  | "publication_request"
+  | "publication_completed"
+  | "review_request"
+  | "review_completed";
 
 export interface TimelineEvent {
   type: TimelineEventType;
@@ -21,11 +24,22 @@ export interface KPI {
   value: number;
 }
 
+export type AttentionLevel =
+  | "OK"
+  | "ATTENTION"
+  | "BLOCKED";
+
+export interface ProjectAttention {
+  level: AttentionLevel;
+  reason: string;
+}
+
 export interface DashboardData {
   title: string;
   status: string;
   summary: string;
   insights: string[];
+  attention: ProjectAttention;
   kpis: KPI[];
   activity: ActivityMember[];
   timeline: TimelineEvent[];

@@ -1,16 +1,72 @@
+import type { ProjectAttention } from "../../types/dashboard";
+
 type Props = {
   title: string;
   status: string;
   summary: string;
   insights: string[];
+  attention: ProjectAttention;
 };
+
+function getAttentionUI(
+  attention: ProjectAttention
+) {
+
+  switch (attention.level) {
+
+    case "ATTENTION":
+
+      return {
+        container:
+          "border-amber-200 bg-amber-50",
+        label:
+          "text-amber-700",
+        title:
+          "text-amber-700",
+        icon: "🟠",
+        text: "Requiere atención",
+      };
+
+    case "BLOCKED":
+
+      return {
+        container:
+          "border-red-200 bg-red-50",
+        label:
+          "text-red-700",
+        title:
+          "text-red-700",
+        icon: "🔴",
+        text: "Posible bloqueo",
+      };
+
+    default:
+
+      return {
+        container:
+          "border-green-200 bg-green-50",
+        label:
+          "text-green-700",
+        title:
+          "text-green-700",
+        icon: "🟢",
+        text: "Ejecución estable",
+      };
+
+  }
+
+}
 
 export default function ExecutiveSummary({
   title,
   status,
   summary,
   insights,
+  attention,
 }: Props) {
+
+  const attentionUI =
+    getAttentionUI(attention);
 
   return (
 
@@ -84,11 +140,12 @@ export default function ExecutiveSummary({
 
               <div
                 key={index}
-                className="flex gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4">
+                className="flex gap-4 rounded-xl border border-slate-200 bg-slate-50 p-4"
+              >
 
                 <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white">
 
-                  {["📊","👥","📦","🚀","💡","⚠️"][index] ?? "🧠"}
+                  {["📊", "👥", "📦", "🚀", "💡", "⚠️"][index] ?? "🧠"}
 
                 </div>
 
@@ -118,26 +175,29 @@ export default function ExecutiveSummary({
 
         <div className="col-span-4">
 
-          <div className="rounded-2xl border border-green-200 bg-green-50 p-5">
+          <div
+            className={`rounded-2xl border p-5 ${attentionUI.container}`}
+          >
 
-            <div className="text-sm font-bold uppercase tracking-widest text-green-700">
+            <div
+              className={`text-sm font-bold uppercase tracking-widest ${attentionUI.label}`}
+            >
 
-              Estado del proyecto
-
-            </div>
-
-            <div className="mt-4 text-2xl font-black text-green-700">
-
-              🟢 Ejecución estable
+              Estado operativo
 
             </div>
 
-            <div className="mt-5 space-y-3 text-sm">
+            <div
+              className={`mt-4 text-2xl font-black ${attentionUI.title}`}
+            >
 
-              <div>✅ Actividad reciente detectada</div>
-              <div>✅ Participación del equipo</div>
-              <div>✅ Entregas registradas</div>
-              <div>✅ Publicaciones registradas</div>
+              {attentionUI.icon} {attentionUI.text}
+
+            </div>
+
+            <div className="mt-4 text-sm leading-6 text-slate-700">
+
+              {attention.reason}
 
             </div>
 
@@ -153,11 +213,29 @@ export default function ExecutiveSummary({
 
             <div className="mt-4 space-y-3 text-sm leading-6">
 
-              <div>• Mantener el ritmo actual del proyecto.</div>
+              {attention.level === "BLOCKED" && (
+                <>
+                  <div>• Revisar el proyecto de forma prioritaria.</div>
+                  <div>• Identificar qué está impidiendo el avance.</div>
+                  <div>• Confirmar responsable y siguiente acción.</div>
+                </>
+              )}
 
-              <div>• Continuar registrando la actividad en Notion.</div>
+              {attention.level === "ATTENTION" && (
+                <>
+                  <div>• Revisar la última actividad registrada.</div>
+                  <div>• Confirmar si existe alguna dependencia pendiente.</div>
+                  <div>• Verificar el siguiente paso del proyecto.</div>
+                </>
+              )}
 
-              <div>• Revisar periódicamente la carga del equipo.</div>
+              {attention.level === "OK" && (
+                <>
+                  <div>• Mantener el ritmo actual del proyecto.</div>
+                  <div>• Continuar registrando la actividad en Notion.</div>
+                  <div>• Revisar periódicamente la carga del equipo.</div>
+                </>
+              )}
 
             </div>
 

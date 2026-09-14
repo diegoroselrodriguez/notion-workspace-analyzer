@@ -1,5 +1,9 @@
 import { useState } from "react";
-import type { ActivityMember, KPI, TimelineEvent } from "../../types/dashboard";
+import type {
+  ActivityMember,
+  KPI,
+  TimelineEvent,
+} from "../../types/dashboard";
 
 type Props = {
   kpis: KPI[];
@@ -37,20 +41,34 @@ export default function ProjectQuestionBox({
     const leader = activity[0];
 
     const deliveries =
-      events.filter(e => e.type === "delivery");
+      events.filter(
+        event => event.type === "delivery"
+      );
 
     const publications =
-      events.filter(e => e.type === "publication");
+      events.filter(
+        event => event.type === "publication_completed"
+      );
 
     if (text.includes("trabaj")) {
 
       if (leader) {
 
         const percent =
-          Math.round((leader.events * 100) / totalEvents);
+          totalEvents > 0
+            ? Math.round(
+                (leader.events * 100) / totalEvents
+              )
+            : 0;
 
         setAnswer(
           `${leader.name} lideró la actividad con ${leader.events} eventos (${percent}% del total).`
+        );
+
+      } else {
+
+        setAnswer(
+          "No se detectó actividad del equipo."
         );
 
       }
@@ -61,7 +79,8 @@ export default function ProjectQuestionBox({
 
     if (text.includes("entrega")) {
 
-      const last = deliveries.at(-1);
+      const last =
+        deliveries.at(-1);
 
       setAnswer(
         last
@@ -75,12 +94,13 @@ export default function ProjectQuestionBox({
 
     if (text.includes("public")) {
 
-      const last = publications.at(-1);
+      const last =
+        publications.at(-1);
 
       setAnswer(
         last
-          ? `${last.author} realizó la última publicación (${last.date}).`
-          : "No se detectaron publicaciones."
+          ? `${last.author} realizó la última publicación completada (${last.date}).`
+          : "No se detectaron publicaciones completadas."
       );
 
       return;
@@ -97,7 +117,9 @@ export default function ProjectQuestionBox({
 
     }
 
-    setAnswer("No puedo responder esa consulta todavía.");
+    setAnswer(
+      "No puedo responder esa consulta todavía."
+    );
 
   }
 
@@ -123,17 +145,18 @@ export default function ProjectQuestionBox({
 
           <input
             value={question}
-            onChange={e => setQuestion(e.target.value)}
+            onChange={event =>
+              setQuestion(event.target.value)
+            }
             placeholder="Escribe una pregunta..."
             className="flex-1 rounded-xl border border-slate-300 px-4 py-3"
           />
 
           <button
             onClick={() => ask(question)}
-            className="rounded-xl bg-blue-600 px-5 text-white">
-
+            className="rounded-xl bg-blue-600 px-5 text-white"
+          >
             →
-
           </button>
 
         </div>
@@ -145,10 +168,9 @@ export default function ProjectQuestionBox({
             <button
               key={item}
               onClick={() => ask(item)}
-              className="block w-full rounded-xl bg-slate-100 px-4 py-2 text-left text-sm transition hover:bg-slate-200">
-
+              className="block w-full rounded-xl bg-slate-100 px-4 py-2 text-left text-sm transition hover:bg-slate-200"
+            >
               {item}
-
             </button>
 
           ))}
@@ -160,15 +182,11 @@ export default function ProjectQuestionBox({
           <div className="mt-5 rounded-2xl border border-blue-200 bg-blue-50 p-4">
 
             <div className="mb-2 text-sm font-semibold text-blue-700">
-
               🤖 InsightFlow AI
-
             </div>
 
             <div className="text-sm leading-6 text-slate-700">
-
               {answer}
-
             </div>
 
           </div>

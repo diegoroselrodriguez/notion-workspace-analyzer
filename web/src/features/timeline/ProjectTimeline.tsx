@@ -14,8 +14,17 @@ function icon(type: TimelineEvent["type"]) {
     case "delivery":
       return "📦";
 
-    case "publication":
+    case "publication_request":
+      return "📤";
+
+    case "publication_completed":
       return "🚀";
+
+    case "review_request":
+      return "🧐";
+
+    case "review_completed":
+      return "✅";
 
     default:
       return "💬";
@@ -34,8 +43,17 @@ function color(type: TimelineEvent["type"]) {
     case "delivery":
       return "bg-orange-500";
 
-    case "publication":
+    case "publication_request":
+      return "bg-violet-500";
+
+    case "publication_completed":
       return "bg-green-500";
+
+    case "review_request":
+      return "bg-amber-500";
+
+    case "review_completed":
+      return "bg-emerald-500";
 
     default:
       return "bg-slate-500";
@@ -54,8 +72,17 @@ function title(type: TimelineEvent["type"]) {
     case "delivery":
       return "Entrega";
 
-    case "publication":
-      return "Publicación";
+    case "publication_request":
+      return "Solicitud de publicación";
+
+    case "publication_completed":
+      return "Publicación completada";
+
+    case "review_request":
+      return "Solicitud de revisión";
+
+    case "review_completed":
+      return "Revisión completada";
 
     default:
       return "Comentario";
@@ -64,7 +91,9 @@ function title(type: TimelineEvent["type"]) {
 
 }
 
-export default function ProjectTimeline({ events }: Props) {
+export default function ProjectTimeline({
+  events
+}: Props) {
 
   return (
 
@@ -94,12 +123,14 @@ export default function ProjectTimeline({ events }: Props) {
 
             <div
               key={index}
-              className="relative flex gap-5">
+              className="relative flex gap-5"
+            >
 
               <div className="flex flex-col items-center">
 
                 <div
-                  className={`flex h-11 w-11 items-center justify-center rounded-full text-lg text-white shadow ${color(event.type)}`}>
+                  className={`flex h-11 w-11 items-center justify-center rounded-full text-lg text-white shadow ${color(event.type)}`}
+                >
 
                   {icon(event.type)}
 

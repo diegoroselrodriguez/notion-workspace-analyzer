@@ -1,6 +1,11 @@
 import { CommentContextFactory } from "../comments/CommentContextFactory.js";
 import { CommentEventParser } from "../parsers/comment-event.parser.js";
+
+import { TaskAnalyzer } from "../analyzers/TaskAnalyzer.js";
+import { CurrentAssigneeResolver } from "../analyzers/resolvers/CurrentAssigneeResolver.js";
 import { WorkflowStatusResolver } from "../analyzers/resolvers/WorkflowStatusResolver.js";
+import { LeadTimeResolver } from "../analyzers/resolvers/LeadTimeResolver.js";
+import { InactiveDaysResolver } from "../analyzers/resolvers/InactiveDaysResolver.js";
 
 import { TimelineBuilder } from "../../domain/timeline/TimelineBuilder.js";
 import { Task } from "../../domain/task/Task.js";
@@ -21,27 +26,37 @@ export class GetDashboardUseCase {
 
     if (cache.has(cacheKey)) {
 
-      console.log(`⚡ Dashboard ${projectId} desde caché`);
+      console.log(
+        `⚡ Dashboard ${projectId} desde caché`
+      );
 
       return cache.get(cacheKey)!;
 
     }
 
-    console.log(`🌐 Dashboard ${projectId} desde Notion`);
+    console.log(
+      `🌐 Dashboard ${projectId} desde Notion`
+    );
 
-    const gateway = new NotionGateway();
+    const gateway =
+      new NotionGateway();
 
-    const taskPage = await gateway.getPage(projectId);
+    const taskPage =
+      await gateway.getPage(projectId);
 
     if (!("properties" in taskPage)) {
-      throw new Error("Proyecto no encontrado.");
+      throw new Error(
+        "Proyecto no encontrado."
+      );
     }
 
     const taskName =
       getNotionPageTitle(taskPage);
 
     const comments =
-      await gateway.getComments(taskPage.id);
+      await gateway.getComments(
+        taskPage.id
+      );
 
     const contextFactory =
       new CommentContextFactory();
@@ -59,13 +74,6 @@ export class GetDashboardUseCase {
 
       });
 
-    const timeline =
-      new TimelineBuilder().build(
-        taskPage.id,
-        taskName,
-        events
-      );
-
     const task =
       new Task(
         taskPage.id,
@@ -75,16 +83,35 @@ export class GetDashboardUseCase {
         events
       );
 
-    const status =
-      new WorkflowStatusResolver().resolve(task);
+    const analyzer =
+      new TaskAnalyzer(
+        new CurrentAssigneeResolver(),
+        new WorkflowStatusResolver(),
+        new LeadTimeResolver(),
+        new InactiveDaysResolver()
+      );
+
+    const snapshot =
+      analyzer.analyze(task);
+
+    const timeline =
+      new TimelineBuilder().build(
+        taskPage.id,
+        taskName,
+        events
+      );
 
     const dashboard =
       new DashboardPresenter().present(
         timeline,
-        status
+        snapshot.status,
+        snapshot.attention
       );
 
-    cache.set(cacheKey, dashboard);
+    cache.set(
+      cacheKey,
+      dashboard
+    );
 
     return dashboard;
 

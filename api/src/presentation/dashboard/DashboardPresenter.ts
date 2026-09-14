@@ -1,12 +1,14 @@
 import type { Timeline } from "../../domain/timeline/Timeline.js";
 import type { TaskStatus } from "../../domain/task-status/TaskStatus.js";
+import type { TaskAttention } from "../../domain/task-analysis/TaskAttention.js";
 import type { DashboardDto } from "./DashboardDto.js";
 
 export class DashboardPresenter {
 
   present(
     timeline: Timeline,
-    status: TaskStatus
+    status: TaskStatus,
+    attention: TaskAttention
   ): DashboardDto {
 
     const participants = [
@@ -80,6 +82,11 @@ export class DashboardPresenter {
         publicationInsight
 
       ],
+
+      attention: {
+        level: attention.level,
+        reason: attention.reason,
+      },
 
       kpis: [
 

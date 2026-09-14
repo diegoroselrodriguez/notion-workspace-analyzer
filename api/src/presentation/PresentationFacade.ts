@@ -1,6 +1,11 @@
 import { Timeline } from "../domain/timeline/Timeline.js";
 import { Task } from "../domain/task/Task.js";
+
+import { TaskAnalyzer } from "../application/analyzers/TaskAnalyzer.js";
+import { CurrentAssigneeResolver } from "../application/analyzers/resolvers/CurrentAssigneeResolver.js";
 import { WorkflowStatusResolver } from "../application/analyzers/resolvers/WorkflowStatusResolver.js";
+import { LeadTimeResolver } from "../application/analyzers/resolvers/LeadTimeResolver.js";
+import { InactiveDaysResolver } from "../application/analyzers/resolvers/InactiveDaysResolver.js";
 
 import { DashboardPresenter } from "./dashboard/DashboardPresenter.js";
 import { DashboardJsonRenderer } from "./dashboard/DashboardJsonRenderer.js";
@@ -9,11 +14,17 @@ import { TimelinePrinter } from "./TimelinePrinter.js";
 
 export class PresentationFacade {
 
-  static render(timeline: Timeline): void {
+  static render(
+    timeline: Timeline
+  ): void {
 
-    TimelinePrinter.print(timeline);
+    TimelinePrinter.print(
+      timeline
+    );
 
-    TimelineHtmlRenderer.render(timeline);
+    TimelineHtmlRenderer.render(
+      timeline
+    );
 
     const task =
       new Task(
@@ -27,21 +38,34 @@ export class PresentationFacade {
           text: event.text,
           createdAt: event.createdAt,
           ...(event.target
-            ? { target: event.target }
+            ? {
+                target: event.target
+              }
             : {}),
         }))
       );
 
-    const status =
-      new WorkflowStatusResolver().resolve(task);
+    const analyzer =
+      new TaskAnalyzer(
+        new CurrentAssigneeResolver(),
+        new WorkflowStatusResolver(),
+        new LeadTimeResolver(),
+        new InactiveDaysResolver()
+      );
+
+    const snapshot =
+      analyzer.analyze(task);
 
     const dashboard =
       new DashboardPresenter().present(
         timeline,
-        status
+        snapshot.status,
+        snapshot.attention
       );
 
-    DashboardJsonRenderer.render(dashboard);
+    DashboardJsonRenderer.render(
+      dashboard
+    );
 
   }
 

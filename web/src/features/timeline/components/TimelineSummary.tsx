@@ -4,137 +4,211 @@ type Props = {
   events: TimelineEvent[];
 };
 
-export default function TimelineSummary({ events }: Props) {
+type DaySummary = {
+  comments: number;
+  assignments: number;
+  deliveries: number;
+  publicationRequests: number;
+  publications: number;
+};
 
-  const grouped = events.reduce((acc, event) => {
+export default function TimelineSummary({
+  events
+}: Props) {
 
-    const day = event.date.split(",")[0];
+  const grouped = events.reduce(
+    (acc, event) => {
 
-    if (!acc[day]) {
+      const day =
+        event.date.split(",")[0];
 
-      acc[day] = {
-        comments: 0,
-        assignments: 0,
-        deliveries: 0,
-        publications: 0,
-      };
+      if (!acc[day]) {
 
-    }
+        acc[day] = {
+          comments: 0,
+          assignments: 0,
+          deliveries: 0,
+          publicationRequests: 0,
+          publications: 0,
+        };
 
-    switch (event.type) {
+      }
 
-      case "assignment":
-        acc[day].assignments++;
-        break;
+      switch (event.type) {
 
-      case "delivery":
-        acc[day].deliveries++;
-        break;
+        case "assignment":
 
-      case "publication":
-        acc[day].publications++;
-        break;
+          acc[day].assignments++;
+          break;
 
-      default:
-        acc[day].comments++;
-        break;
+        case "delivery":
 
-    }
+          acc[day].deliveries++;
+          break;
 
-    return acc;
+        case "publication_request":
 
-  }, {} as Record<
-    string,
-    {
-      comments: number;
-      assignments: number;
-      deliveries: number;
-      publications: number;
-    }
-  >);
+          acc[day].publicationRequests++;
+          break;
+
+        case "publication_completed":
+
+          acc[day].publications++;
+          break;
+
+        default:
+
+          acc[day].comments++;
+          break;
+
+      }
+
+      return acc;
+
+    },
+    {} as Record<string, DaySummary>
+  );
 
   return (
 
     <div className="rounded-3xl bg-white p-8 shadow">
 
       <h2 className="text-2xl font-bold">
+
         📅 Actividad por día
+
       </h2>
 
       <p className="mt-2 text-slate-500">
+
         Resumen automático de la evolución del proyecto.
+
       </p>
 
       <div className="mt-8 space-y-5">
 
-        {Object.entries(grouped).map(([day, data]) => (
+        {Object.entries(grouped).map(
+          ([day, data]) => (
 
-          <div
-            key={day}
-            className="rounded-2xl border border-slate-200 p-5"
-          >
+            <div
+              key={day}
+              className="rounded-2xl border border-slate-200 p-5"
+            >
 
-            <div className="mb-4 text-lg font-bold">
+              <div className="mb-4 text-lg font-bold">
 
-              {day}
+                {day}
+
+              </div>
+
+              <div className="grid grid-cols-5 gap-3">
+
+                <div className="rounded-xl bg-slate-50 p-3 text-center">
+
+                  <div className="text-2xl">
+                    💬
+                  </div>
+
+                  <div className="mt-2 font-bold">
+
+                    {data.comments}
+
+                  </div>
+
+                  <div className="mt-1 text-xs text-slate-500">
+
+                    Comentarios
+
+                  </div>
+
+                </div>
+
+                <div className="rounded-xl bg-blue-50 p-3 text-center">
+
+                  <div className="text-2xl">
+                    👤
+                  </div>
+
+                  <div className="mt-2 font-bold">
+
+                    {data.assignments}
+
+                  </div>
+
+                  <div className="mt-1 text-xs text-slate-500">
+
+                    Asignaciones
+
+                  </div>
+
+                </div>
+
+                <div className="rounded-xl bg-orange-50 p-3 text-center">
+
+                  <div className="text-2xl">
+                    📦
+                  </div>
+
+                  <div className="mt-2 font-bold">
+
+                    {data.deliveries}
+
+                  </div>
+
+                  <div className="mt-1 text-xs text-slate-500">
+
+                    Entregas
+
+                  </div>
+
+                </div>
+
+                <div className="rounded-xl bg-violet-50 p-3 text-center">
+
+                  <div className="text-2xl">
+                    📤
+                  </div>
+
+                  <div className="mt-2 font-bold">
+
+                    {data.publicationRequests}
+
+                  </div>
+
+                  <div className="mt-1 text-xs text-slate-500">
+
+                    Solicitudes
+
+                  </div>
+
+                </div>
+
+                <div className="rounded-xl bg-green-50 p-3 text-center">
+
+                  <div className="text-2xl">
+                    🚀
+                  </div>
+
+                  <div className="mt-2 font-bold">
+
+                    {data.publications}
+
+                  </div>
+
+                  <div className="mt-1 text-xs text-slate-500">
+
+                    Publicaciones
+
+                  </div>
+
+                </div>
+
+              </div>
 
             </div>
 
-            <div className="grid grid-cols-4 gap-3">
-
-              <div className="rounded-xl bg-slate-50 p-3 text-center">
-
-                <div className="text-2xl">💬</div>
-
-                <div className="mt-2 font-bold">
-
-                  {data.comments}
-
-                </div>
-
-              </div>
-
-              <div className="rounded-xl bg-blue-50 p-3 text-center">
-
-                <div className="text-2xl">👤</div>
-
-                <div className="mt-2 font-bold">
-
-                  {data.assignments}
-
-                </div>
-
-              </div>
-
-              <div className="rounded-xl bg-orange-50 p-3 text-center">
-
-                <div className="text-2xl">📦</div>
-
-                <div className="mt-2 font-bold">
-
-                  {data.deliveries}
-
-                </div>
-
-              </div>
-
-              <div className="rounded-xl bg-green-50 p-3 text-center">
-
-                <div className="text-2xl">🚀</div>
-
-                <div className="mt-2 font-bold">
-
-                  {data.publications}
-
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        ))}
+          )
+        )}
 
       </div>
 

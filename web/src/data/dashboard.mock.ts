@@ -6,7 +6,7 @@ export const dashboards: Record<string, DashboardData> = {
 
     title: "Resultados H1 2026",
 
-    status: "Finalizado",
+    status: "Publicado",
 
     summary:
       "InsightFlow reconstruyó automáticamente la historia del proyecto leyendo los comentarios de Notion. Participaron siete personas, se detectaron veintisiete eventos, dos asignaciones, tres entregas y dos publicaciones.",
@@ -16,9 +16,14 @@ export const dashboards: Record<string, DashboardData> = {
       "Participaron 7 personas.",
       "Hubo 2 asignaciones de trabajo.",
       "Se realizaron 3 entregas relevantes.",
-      "Se registraron 2 publicaciones.",
-      "No se detectan bloqueos importantes."
+      "Se detectó 1 solicitud de publicación.",
+      "Se completaron 2 publicaciones."
     ],
+
+    attention: {
+      level: "OK",
+      reason: "El proyecto está publicado."
+    },
 
     kpis: [
 
@@ -32,7 +37,7 @@ export const dashboards: Record<string, DashboardData> = {
 
       { label: "Publicaciones", value: 2 },
 
-      { label: "Días", value: 4 },
+      { label: "Días", value: 3 },
 
     ],
 
@@ -85,7 +90,7 @@ export const dashboards: Record<string, DashboardData> = {
       },
 
       {
-        type: "publication",
+        type: "publication_completed",
         author: "Diego Rosel",
         date: "14 Ago · 09:17",
         description: "Publicación en DIGI Hub."
@@ -112,6 +117,11 @@ export const dashboards: Record<string, DashboardData> = {
       "Todavía no se ha registrado una publicación final.",
       "El proyecto requiere seguimiento."
     ],
+
+    attention: {
+      level: "ATTENTION",
+      reason: "El proyecto requiere seguimiento."
+    },
 
     kpis: [
 

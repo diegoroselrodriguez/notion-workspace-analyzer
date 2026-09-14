@@ -18,7 +18,9 @@ type Props = {
   project: string;
 };
 
-export default function DashboardPage({ project }: Props) {
+export default function DashboardPage({
+  project
+}: Props) {
 
   const [dashboard, setDashboard] =
     useState<DashboardData | null>(null);
@@ -42,29 +44,38 @@ export default function DashboardPage({ project }: Props) {
 
     Promise.all([
       DashboardService.getDashboard(project),
-      new Promise(resolve => setTimeout(resolve, 1500))
+      new Promise(resolve =>
+        setTimeout(resolve, 1500)
+      )
     ])
       .then(([data]) => {
 
-        if (!mounted) return;
+        if (!mounted) {
+          return;
+        }
 
         setDashboard(data);
 
         setLastSync(
-          new Date().toLocaleString("es-ES", {
-            day: "2-digit",
-            month: "2-digit",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit"
-          })
+          new Date().toLocaleString(
+            "es-ES",
+            {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit"
+            }
+          )
         );
 
       })
       .catch((error: unknown) => {
 
-        if (!mounted) return;
+        if (!mounted) {
+          return;
+        }
 
         console.error(error);
 
@@ -77,7 +88,9 @@ export default function DashboardPage({ project }: Props) {
       })
       .finally(() => {
 
-        if (!mounted) return;
+        if (!mounted) {
+          return;
+        }
 
         setLoading(false);
 
@@ -186,6 +199,7 @@ export default function DashboardPage({ project }: Props) {
         status={dashboard.status}
         summary={dashboard.summary}
         insights={dashboard.insights}
+        attention={dashboard.attention}
       />
 
       <div className="grid grid-cols-12 gap-5">
@@ -210,7 +224,7 @@ export default function DashboardPage({ project }: Props) {
 
       </div>
 
-      <div className="grid grid-cols-12 gap-5 items-start">
+      <div className="grid grid-cols-12 items-start gap-5">
 
         <div className="col-span-4">
 

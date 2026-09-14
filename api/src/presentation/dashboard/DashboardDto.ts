@@ -8,6 +8,11 @@ export interface DashboardDto {
 
   insights: string[];
 
+  attention: {
+    level: "OK" | "ATTENTION" | "BLOCKED";
+    reason: string;
+  };
+
   kpis: {
 
     label: string;

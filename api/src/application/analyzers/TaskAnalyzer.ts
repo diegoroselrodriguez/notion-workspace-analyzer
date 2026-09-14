@@ -1,7 +1,10 @@
 import { Task } from "../../domain/task/Task.js";
 import { TaskSnapshot } from "../../domain/task-analysis/TaskSnapshot.js";
 import { TaskStatus } from "../../domain/task-status/TaskStatus.js";
+
 import type { TaskResolver } from "./TaskResolver.js";
+
+import { TaskAttentionResolver } from "./resolvers/TaskAttentionResolver.js";
 
 export class TaskAnalyzer {
 
@@ -14,15 +17,28 @@ export class TaskAnalyzer {
 
   analyze(task: Task): TaskSnapshot {
 
+    const status =
+      this.workflowStatusResolver.resolve(task);
+
+    const inactiveDays =
+      this.inactiveDaysResolver.resolve(task);
+
+    const attention =
+      new TaskAttentionResolver().resolve(
+        status,
+        inactiveDays
+      );
+
     return new TaskSnapshot(
       task.id,
       task.name,
       this.currentAssigneeResolver.resolve(task),
-      this.workflowStatusResolver.resolve(task),
+      status,
       task.events.at(-1)?.createdAt ?? null,
       task.events.length,
       this.leadTimeResolver.resolve(task),
-      this.inactiveDaysResolver.resolve(task),
+      inactiveDays,
+      attention,
     );
 
   }

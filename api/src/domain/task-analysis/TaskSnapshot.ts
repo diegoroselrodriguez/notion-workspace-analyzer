@@ -1,4 +1,5 @@
 import { TaskStatus } from "../task-status/TaskStatus.js";
+import type { TaskAttention } from "./TaskAttention.js";
 
 export class TaskSnapshot {
 
@@ -11,6 +12,7 @@ export class TaskSnapshot {
     public readonly totalEvents: number,
     public readonly leadTime: number | null,
     public readonly inactiveDays: number | null,
+    public readonly attention: TaskAttention,
   ) {}
 
 }
