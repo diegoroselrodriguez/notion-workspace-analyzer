@@ -40,6 +40,8 @@ export class DashboardPresenter {
       }))
       .sort((a, b) => b.events - a.events);
 
+    const duration = this.calculateDurationDays(timeline);
+
     const publicationRequestInsight =
       publicationRequests === 1
         ? "Se detectó 1 solicitud de publicación."
@@ -104,7 +106,7 @@ export class DashboardPresenter {
 
         {
           label: "Días",
-          value: 4
+          value: duration
         }
 
       ],
@@ -132,6 +134,45 @@ export class DashboardPresenter {
       }))
 
     };
+
+  }
+
+  private calculateDurationDays(
+    timeline: Timeline
+  ): number {
+
+    if (timeline.events.length === 0) {
+      return 0;
+    }
+
+    const firstEvent =
+      timeline.events[0];
+
+    const lastEvent =
+      timeline.events[
+        timeline.events.length - 1
+      ];
+
+    if (!firstEvent || !lastEvent) {
+      return 0;
+    }
+
+    const start =
+      new Date(firstEvent.createdAt);
+
+    const end =
+      new Date(lastEvent.createdAt);
+
+    const diffMs =
+      end.getTime() - start.getTime();
+
+    const diffDays =
+      diffMs / (1000 * 60 * 60 * 24);
+
+    return Math.max(
+      1,
+      Math.ceil(diffDays)
+    );
 
   }
 
