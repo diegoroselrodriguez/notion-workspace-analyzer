@@ -9,29 +9,25 @@ const cache = new DashboardCache<any>();
 
 export class GetDashboardUseCase {
 
-  async execute(projectIndex: number = 2) {
+  async execute(projectId: string) {
 
-    const cacheKey = String(projectIndex);
+    const cacheKey = projectId;
 
     if (cache.has(cacheKey)) {
 
-      console.log(`⚡ Dashboard ${projectIndex} desde caché`);
+      console.log('⚡ Dashboard ${projectId} desde caché');
 
       return cache.get(cacheKey)!;
 
     }
 
-    console.log(`🌐 Dashboard ${projectIndex} desde Notion`);
+    console.log('🌐 Dashboard ${projectId} desde Notion');
 
     const gateway = new NotionGateway();
 
-    const result = await gateway.queryDataSource(
-      "4f68b74a-6e4f-495e-8f33-864a3feb3796"
-    );
+    const task = await gateway.getPage(projectId);
 
-    const task = result.results[projectIndex];
-
-    if (!task || !("properties" in task)) {
+    if (!("properties" in task)) {
       throw new Error("Proyecto no encontrado.");
     }
 
@@ -55,7 +51,7 @@ export class GetDashboardUseCase {
     const timeline = new TimelineBuilder().build(
       task.id,
       taskName,
-      events as any
+      events
     );
 
     const dashboard =

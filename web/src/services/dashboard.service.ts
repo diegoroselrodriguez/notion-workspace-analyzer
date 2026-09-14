@@ -1,10 +1,10 @@
 import type { DashboardData } from "../types/dashboard";
 import { Api } from "./api";
 
-const PROJECT_MAP: Record<string, number> = {
-  resultados: 2,
-  portabilidades: 0,
-  proyectos: 1
+const PROJECT_MAP: Record<string, string> = {
+  resultados: "3b92d23e-2665-8019-ab71-def0075e3361",
+  portabilidades: "3cd2d23e-2665-8012-b412-f635d03ee4af",
+  proyectos: "3ba2d23e-2665-80a9-90e2-d0382cf9413a",
 };
 
 export class DashboardService {
@@ -13,11 +13,16 @@ export class DashboardService {
     projectId: string
   ): Promise<DashboardData> {
 
-    const id =
-      PROJECT_MAP[projectId] ?? 2;
+    const notionPageId = PROJECT_MAP[projectId];
+
+    if (!notionPageId) {
+      throw new Error(
+        `Proyecto no configurado: ${projectId}`
+      );
+    }
 
     return Api.get(
-      `/api/projects/${id}/dashboard`
+      `/api/projects/${notionPageId}/dashboard`
     );
 
   }

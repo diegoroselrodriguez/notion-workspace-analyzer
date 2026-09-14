@@ -11,12 +11,12 @@ router.get(
 
     try {
 
-      const projectIndex = Number(req.params.id);
+      const projectId = req.params.id;
 
-      console.log("Project:", projectIndex);
+      console.log("Project ID:", projectId);
 
       const dashboard =
-        await new GetDashboardUseCase().execute(projectIndex);
+        await new GetDashboardUseCase().execute(projectId);
 
       console.log("Enviando respuesta");
 

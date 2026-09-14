@@ -11,6 +11,15 @@ export const dashboards: Record<string, DashboardData> = {
     summary:
       "InsightFlow reconstruyó automáticamente la historia del proyecto leyendo los comentarios de Notion. Participaron siete personas, se detectaron veintisiete eventos, dos asignaciones, tres entregas y dos publicaciones.",
 
+    insights: [
+      "Se detectaron 27 eventos durante el proyecto.",
+      "Participaron 7 personas.",
+      "Hubo 2 asignaciones de trabajo.",
+      "Se realizaron 3 entregas relevantes.",
+      "Se registraron 2 publicaciones.",
+      "No se detectan bloqueos importantes."
+    ],
+
     kpis: [
 
       { label: "Eventos", value: 27 },
@@ -94,6 +103,15 @@ export const dashboards: Record<string, DashboardData> = {
 
     summary:
       "InsightFlow detectó que el proyecto continúa activo. Se han realizado varias entregas pero aún no existe una publicación final.",
+
+    insights: [
+      "El proyecto continúa activo.",
+      "Participaron 4 personas.",
+      "Se detectó 1 asignación.",
+      "Se realizaron 2 entregas.",
+      "Todavía no se ha registrado una publicación final.",
+      "El proyecto requiere seguimiento."
+    ],
 
     kpis: [
 
