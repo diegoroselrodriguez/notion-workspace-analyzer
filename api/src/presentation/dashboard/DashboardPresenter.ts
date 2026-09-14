@@ -16,9 +16,14 @@ export class DashboardPresenter {
         event => event.type === "DELIVERY"
       ).length;
 
+    const publicationRequests =
+      timeline.events.filter(
+        event => event.type === "PUBLICATION_REQUEST"
+      ).length;
+
     const publications =
       timeline.events.filter(
-        event => event.type === "PUBLICATION"
+        event => event.type === "PUBLICATION_COMPLETED"
       ).length;
 
     const assignments =
@@ -34,6 +39,16 @@ export class DashboardPresenter {
         ).length
       }))
       .sort((a, b) => b.events - a.events);
+
+    const publicationRequestInsight =
+      publicationRequests === 1
+        ? "Se detectó 1 solicitud de publicación."
+        : `Se detectaron ${publicationRequests} solicitudes de publicación.`;
+
+    const publicationInsight =
+      publications === 1
+        ? "Se completó 1 publicación."
+        : `Se completaron ${publications} publicaciones.`;
 
     return {
 
@@ -54,9 +69,9 @@ export class DashboardPresenter {
 
         `Se realizaron ${deliveries} entregas relevantes.`,
 
-        `Se registraron ${publications} publicaciones.`,
+        publicationRequestInsight,
 
-        "No se detectan bloqueos importantes."
+        publicationInsight
 
       ],
 

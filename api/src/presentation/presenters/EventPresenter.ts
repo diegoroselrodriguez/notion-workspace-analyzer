@@ -43,21 +43,41 @@ export class EventPresenter {
           description: "Se ha entregado un trabajo.",
         };
 
-      case "PUBLICATION":
+      case "PUBLICATION_REQUEST":
+
+        return {
+          icon: "📤",
+          title: "Solicitud de publicación",
+          author: event.author,
+          date: event.createdAt,
+          description: event.text,
+        };
+
+      case "PUBLICATION_COMPLETED":
 
         return {
           icon: "🚀",
           title: "Publicación",
           author: event.author,
           date: event.createdAt,
-          description: "Contenido publicado correctamente.",
+          description: event.text,
         };
 
-      case "REVIEW":
+      case "REVIEW_REQUEST":
 
         return {
           icon: "🧐",
-          title: "Revisión",
+          title: "Solicitud de revisión",
+          author: event.author,
+          date: event.createdAt,
+          description: event.text,
+        };
+
+      case "REVIEW_COMPLETED":
+
+        return {
+          icon: "✅",
+          title: "Revisión completada",
           author: event.author,
           date: event.createdAt,
           description: event.text,

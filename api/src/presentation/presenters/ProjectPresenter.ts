@@ -12,6 +12,7 @@ export interface PresentedProject {
   events: number;
   assignments: number;
   deliveries: number;
+  publicationRequests: number;
   publications: number;
   duration: number;
   mostActiveUser: string;
@@ -30,13 +31,24 @@ export class ProjectPresenter {
     ];
 
     const assignments =
-      timeline.events.filter(e => e.type === "ASSIGNMENT").length;
+      timeline.events.filter(
+        event => event.type === "ASSIGNMENT"
+      ).length;
 
     const deliveries =
-      timeline.events.filter(e => e.type === "DELIVERY").length;
+      timeline.events.filter(
+        event => event.type === "DELIVERY"
+      ).length;
+
+    const publicationRequests =
+      timeline.events.filter(
+        event => event.type === "PUBLICATION_REQUEST"
+      ).length;
 
     const publications =
-      timeline.events.filter(e => e.type === "PUBLICATION").length;
+      timeline.events.filter(
+        event => event.type === "PUBLICATION_COMPLETED"
+      ).length;
 
     if (timeline.events.length === 0) {
 
@@ -47,6 +59,7 @@ export class ProjectPresenter {
         events: 0,
         assignments: 0,
         deliveries: 0,
+        publicationRequests: 0,
         publications: 0,
         duration: 0,
         mostActiveUser: "-",
@@ -56,8 +69,15 @@ export class ProjectPresenter {
 
     }
 
-    const firstDate = new Date(timeline.events[0]!.createdAt);
-    const lastDate = new Date(timeline.events[timeline.events.length - 1]!.createdAt);
+    const firstDate =
+      new Date(timeline.events[0]!.createdAt);
+
+    const lastDate =
+      new Date(
+        timeline.events[
+          timeline.events.length - 1
+        ]!.createdAt
+      );
 
     const duration = Math.max(
       1,
@@ -67,7 +87,8 @@ export class ProjectPresenter {
       )
     );
 
-    const counter = new Map<string, number>();
+    const counter =
+      new Map<string, number>();
 
     for (const event of timeline.events) {
 
@@ -78,12 +99,13 @@ export class ProjectPresenter {
 
     }
 
-    const activity = [...counter.entries()]
-      .map(([name, events]) => ({
-        name,
-        events,
-      }))
-      .sort((a, b) => b.events - a.events);
+    const activity =
+      [...counter.entries()]
+        .map(([name, events]) => ({
+          name,
+          events,
+        }))
+        .sort((a, b) => b.events - a.events);
 
     return {
 
@@ -99,14 +121,22 @@ export class ProjectPresenter {
 
       deliveries,
 
+      publicationRequests,
+
       publications,
 
       duration,
 
-      mostActiveUser: activity[0]?.name ?? "-",
+      mostActiveUser:
+        activity[0]?.name ?? "-",
 
       summary:
-        `InsightFlow ha reconstruido automáticamente este proyecto. Participaron ${participants.length} personas durante ${duration} días. Se detectaron ${assignments} asignaciones, ${deliveries} entregas y ${publications} publicaciones.`,
+        `InsightFlow ha reconstruido automáticamente este proyecto. ` +
+        `Participaron ${participants.length} personas durante ${duration} días. ` +
+        `Se detectaron ${assignments} asignaciones, ` +
+        `${deliveries} entregas, ` +
+        `${publicationRequests} solicitudes de publicación ` +
+        `y ${publications} publicaciones completadas.`,
 
       activity,
 

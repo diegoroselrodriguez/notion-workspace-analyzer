@@ -44,7 +44,9 @@ export class TimelineBuilder {
 
   }
 
-  private toTimelineType(type: TaskEvent["type"]): TimelineEventType {
+  private toTimelineType(
+    type: TaskEvent["type"]
+  ): TimelineEventType {
 
     switch (type) {
 
@@ -54,13 +56,17 @@ export class TimelineBuilder {
       case "DELIVERY":
         return TimelineEventType.DELIVERY;
 
-      case "PUBLICATION_COMPLETED":
       case "PUBLICATION_REQUEST":
-        return TimelineEventType.PUBLICATION;
+        return TimelineEventType.PUBLICATION_REQUEST;
+
+      case "PUBLICATION_COMPLETED":
+        return TimelineEventType.PUBLICATION_COMPLETED;
+
+      case "REVIEW_REQUEST":
+        return TimelineEventType.REVIEW_REQUEST;
 
       case "REVIEW_COMPLETED":
-      case "REVIEW_REQUEST":
-        return TimelineEventType.REVIEW;
+        return TimelineEventType.REVIEW_COMPLETED;
 
       default:
         return TimelineEventType.COMMENT;
