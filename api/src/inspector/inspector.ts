@@ -1,6 +1,7 @@
 const command = process.argv[2];
 
 switch (command) {
+
   case "workspace":
     await import("./commands/workspace.command.js");
     break;
@@ -20,7 +21,7 @@ switch (command) {
   case "comments":
     await import("./commands/comments.command.js");
     break;
-  
+
   case "tasks":
     await import("./commands/tasks.command.js");
     break;
@@ -30,6 +31,7 @@ switch (command) {
     break;
 
   case "timeline": {
+
     const { timelineCommand } = await import(
       "./commands/timeline.command.js"
     );
@@ -38,19 +40,31 @@ switch (command) {
 
     break;
   }
-  
+
+  case "workload": {
+
+    const { workloadCommand } = await import(
+      "./commands/workload.command.js"
+    );
+
+    await workloadCommand();
+
+    break;
+  }
+
   default:
-  console.log(`
-    Commands:
+    console.log(`
+Commands:
 
-    workspace
-    pages
-    blocks
-    databases
-    comments
-    tasks
-    task
-    timeline
+workspace
+pages
+blocks
+databases
+comments
+tasks
+task
+timeline
+workload
 
-    `);
+`);
 }
