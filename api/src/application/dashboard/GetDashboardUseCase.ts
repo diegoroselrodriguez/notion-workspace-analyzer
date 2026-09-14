@@ -1,10 +1,15 @@
 import { CommentContextFactory } from "../comments/CommentContextFactory.js";
 import { CommentEventParser } from "../parsers/comment-event.parser.js";
+import { WorkflowStatusResolver } from "../analyzers/resolvers/WorkflowStatusResolver.js";
+
 import { TimelineBuilder } from "../../domain/timeline/TimelineBuilder.js";
+import { Task } from "../../domain/task/Task.js";
+
 import { NotionGateway } from "../../infrastructure/notion/notion.gateway.js";
 import { getNotionPageTitle } from "../../infrastructure/notion/notion-page-title.js";
-import { DashboardPresenter } from "../../presentation/dashboard/DashboardPresenter.js";
 import { DashboardCache } from "../../infrastructure/cache/DashboardCache.js";
+
+import { DashboardPresenter } from "../../presentation/dashboard/DashboardPresenter.js";
 
 const cache = new DashboardCache<any>();
 
@@ -26,17 +31,17 @@ export class GetDashboardUseCase {
 
     const gateway = new NotionGateway();
 
-    const task = await gateway.getPage(projectId);
+    const taskPage = await gateway.getPage(projectId);
 
-    if (!("properties" in task)) {
+    if (!("properties" in taskPage)) {
       throw new Error("Proyecto no encontrado.");
     }
 
     const taskName =
-      getNotionPageTitle(task);
+      getNotionPageTitle(taskPage);
 
     const comments =
-      await gateway.getComments(task.id);
+      await gateway.getComments(taskPage.id);
 
     const contextFactory =
       new CommentContextFactory();
@@ -56,13 +61,28 @@ export class GetDashboardUseCase {
 
     const timeline =
       new TimelineBuilder().build(
-        task.id,
+        taskPage.id,
         taskName,
         events
       );
 
+    const task =
+      new Task(
+        taskPage.id,
+        taskName,
+        null,
+        [],
+        events
+      );
+
+    const status =
+      new WorkflowStatusResolver().resolve(task);
+
     const dashboard =
-      new DashboardPresenter().present(timeline);
+      new DashboardPresenter().present(
+        timeline,
+        status
+      );
 
     cache.set(cacheKey, dashboard);
 

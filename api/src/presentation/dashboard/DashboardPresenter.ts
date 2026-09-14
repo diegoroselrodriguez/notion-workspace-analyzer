@@ -1,9 +1,13 @@
 import type { Timeline } from "../../domain/timeline/Timeline.js";
+import type { TaskStatus } from "../../domain/task-status/TaskStatus.js";
 import type { DashboardDto } from "./DashboardDto.js";
 
 export class DashboardPresenter {
 
-  present(timeline: Timeline): DashboardDto {
+  present(
+    timeline: Timeline,
+    status: TaskStatus
+  ): DashboardDto {
 
     const participants = [
       ...new Set(
@@ -56,7 +60,7 @@ export class DashboardPresenter {
 
       title: timeline.taskName,
 
-      status: "Finalizado",
+      status: this.presentStatus(status),
 
       summary:
         `InsightFlow reconstruyó automáticamente este proyecto analizando ${timeline.events.length} eventos registrados en Notion.`,
@@ -134,6 +138,37 @@ export class DashboardPresenter {
       }))
 
     };
+
+  }
+
+  private presentStatus(
+    status: TaskStatus
+  ): string {
+
+    switch (status) {
+
+      case "NEW":
+        return "Nuevo";
+
+      case "IN_PROGRESS":
+        return "En progreso";
+
+      case "UNDER_REVIEW":
+        return "En revisión";
+
+      case "READY_TO_PUBLISH":
+        return "Listo para publicar";
+
+      case "PENDING_PUBLICATION":
+        return "Pendiente de publicación";
+
+      case "PUBLISHED":
+        return "Publicado";
+
+      default:
+        return "Desconocido";
+
+    }
 
   }
 
