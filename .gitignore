@@ -8,3 +8,15 @@ dist
 
 # Generated outputs - may contain corporate Notion data
 api/output/
+
+# Accidental TypeScript build artifacts inside API source
+api/src/**/*.js
+api/src/**/*.js.map
+api/src/**/*.d.ts
+api/src/**/*.d.ts.map
+
+# Accidental TypeScript build artifacts in API root
+api/*.js
+api/*.js.map
+api/*.d.ts
+api/*.d.ts.map

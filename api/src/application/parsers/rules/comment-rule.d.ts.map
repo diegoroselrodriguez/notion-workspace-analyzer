@@ -1,1 +1,0 @@
-{"version":3,"file":"comment-rule.d.ts","sourceRoot":"","sources":["comment-rule.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,sCAAsC,CAAC;AACtE,OAAO,KAAK,EAAE,cAAc,EAAE,MAAM,4CAA4C,CAAC;AAEjF,MAAM,WAAW,WAAW;IAE1B,OAAO,CAAC,OAAO,EAAE,cAAc,GAAG,OAAO,CAAC;IAE1C,KAAK,CAAC,OAAO,EAAE,cAAc,GAAG,SAAS,CAAC;CAE3C"}

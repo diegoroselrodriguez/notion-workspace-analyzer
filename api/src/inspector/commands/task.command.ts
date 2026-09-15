@@ -1,10 +1,11 @@
 import { NotionGateway } from "../../infrastructure/notion/notion.gateway.js";
+import { getNotionDesignDataSourceId } from "../../config/notion.config.js";
 import type { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints.js";
 
 const gateway = new NotionGateway();
 
 const result = await gateway.queryDataSource(
-  "4f68b74a-6e4f-495e-8f33-864a3feb3796"
+  getNotionDesignDataSourceId()
 );
 
 const task = result.results[2] as PageObjectResponse;
@@ -14,11 +15,14 @@ if (!task || task.object !== "page") {
 }
 
 console.log("\n===== TAREA =====");
+
 const titleProperty = task.properties["Nombre"] as {
   title: { plain_text: string }[];
 };
 
-console.log(titleProperty.title[0]?.plain_text);
+console.log(
+  titleProperty.title[0]?.plain_text ?? "Sin nombre"
+);
 
 const blocks = await gateway.getBlockChildren(task.id);
 

@@ -1,1 +1,0 @@
-{"version":3,"file":"CurrentAssigneeResolver.d.ts","sourceRoot":"","sources":["CurrentAssigneeResolver.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,YAAY,EAAE,MAAM,oBAAoB,CAAC;AACvD,OAAO,EAAE,IAAI,EAAE,MAAM,8BAA8B,CAAC;AAGpD,qBAAa,uBACX,YAAW,YAAY,CAAC,MAAM,GAAG,IAAI,CAAC;IACtC,OAAO,CAAC,IAAI,EAAE,IAAI,GAAG,MAAM,GAAG,IAAI,CAWjC;CAEF"}

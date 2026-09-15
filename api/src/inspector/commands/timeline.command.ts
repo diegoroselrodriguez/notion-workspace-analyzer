@@ -3,13 +3,14 @@ import { CommentEventParser } from "../../application/parsers/comment-event.pars
 import { TimelineBuilder } from "../../domain/timeline/TimelineBuilder.js";
 import { NotionGateway } from "../../infrastructure/notion/notion.gateway.js";
 import { PresentationFacade } from "../../presentation/PresentationFacade.js";
+import { getNotionDesignDataSourceId } from "../../config/notion.config.js";
 
 export async function timelineCommand() {
 
   const gateway = new NotionGateway();
 
   const result = await gateway.queryDataSource(
-    "4f68b74a-6e4f-495e-8f33-864a3feb3796"
+    getNotionDesignDataSourceId()
   );
 
   const task = result.results[2];
@@ -19,27 +20,35 @@ export async function timelineCommand() {
   }
 
   const taskName =
-    (task.properties.Nombre as any)?.title?.[0]?.plain_text ??
+    (task.properties.Nombre as any)
+      ?.title?.[0]?.plain_text ??
     "Sin nombre";
 
-  const comments = await gateway.getComments(task.id);
+  const comments =
+    await gateway.getComments(task.id);
 
-  const contextFactory = new CommentContextFactory();
-  const parser = new CommentEventParser();
+  const contextFactory =
+    new CommentContextFactory();
 
-  const events = comments.results.map(comment => {
+  const parser =
+    new CommentEventParser();
 
-    const context = contextFactory.create(comment);
+  const events =
+    comments.results.map(comment => {
 
-    return parser.parse(context);
+      const context =
+        contextFactory.create(comment);
 
-  });
+      return parser.parse(context);
 
-  const timeline = new TimelineBuilder().build(
-    task.id,
-    taskName,
-    events as any
-  );
+    });
+
+  const timeline =
+    new TimelineBuilder().build(
+      task.id,
+      taskName,
+      events as any
+    );
 
   PresentationFacade.render(timeline);
 

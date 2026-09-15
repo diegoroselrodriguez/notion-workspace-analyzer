@@ -1,1 +1,0 @@
-{"version":3,"file":"TimelineBuilder.d.ts","sourceRoot":"","sources":["TimelineBuilder.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,QAAQ,EAAE,MAAM,eAAe,CAAC;AAMzC,OAAO,KAAK,EAAE,SAAS,EAAE,MAAM,yBAAyB,CAAC;AAEzD,qBAAa,eAAe;IAE1B,KAAK,CACH,MAAM,EAAE,MAAM,EACd,QAAQ,EAAE,MAAM,EAChB,MAAM,EAAE,SAAS,EAAE,GAClB,QAAQ,CA8BV;IAED,OAAO,CAAC,cAAc;CAyBvB"}

@@ -1,9 +1,0 @@
-export declare enum TaskStatus {
-    NEW = "NEW",
-    IN_PROGRESS = "IN_PROGRESS",
-    UNDER_REVIEW = "UNDER_REVIEW",
-    READY_TO_PUBLISH = "READY_TO_PUBLISH",
-    PENDING_PUBLICATION = "PENDING_PUBLICATION",
-    PUBLISHED = "PUBLISHED"
-}
-//# sourceMappingURL=TaskStatus.d.ts.map

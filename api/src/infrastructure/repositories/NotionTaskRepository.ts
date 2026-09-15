@@ -6,11 +6,9 @@ import { TimelineBuilder } from "../../domain/timeline/TimelineBuilder.js";
 import { NotionGateway } from "../notion/notion.gateway.js";
 import { NotionTaskMapper } from "../mappers/NotionTaskMapper.js";
 import { CommentContextFactory } from "../../application/comments/CommentContextFactory.js";
+import { getNotionDesignDataSourceId } from "../../config/notion.config.js";
 
 export class NotionTaskRepository implements TaskRepository {
-
-  private static readonly DESIGN_DATA_SOURCE_ID =
-    "4f68b74a-6e4f-495e-8f33-864a3feb3796";
 
   constructor(
     private gateway = new NotionGateway(),
@@ -23,7 +21,7 @@ export class NotionTaskRepository implements TaskRepository {
   async findRecent(limit: number): Promise<Task[]> {
 
     const result = await this.gateway.queryDataSource(
-      NotionTaskRepository.DESIGN_DATA_SOURCE_ID,
+      getNotionDesignDataSourceId(),
       {
         page_size: limit,
         sorts: [
@@ -51,12 +49,18 @@ export class NotionTaskRepository implements TaskRepository {
       throw new Error("La página no contiene propiedades");
     }
 
-    const comments = await this.gateway.getComments(page.id);
+    const comments =
+      await this.gateway.getComments(page.id);
 
-    const events = comments.results.map(comment => {
-      const context = this.contextFactory.create(comment);
-      return this.parser.parse(context);
-    });
+    const events =
+      comments.results.map(comment => {
+
+        const context =
+          this.contextFactory.create(comment);
+
+        return this.parser.parse(context);
+
+      });
 
     return this.mapper.toDomain(
       page,
@@ -67,7 +71,8 @@ export class NotionTaskRepository implements TaskRepository {
 
   async findById(id: string): Promise<Task> {
 
-    const page = await this.gateway.getPage(id);
+    const page =
+      await this.gateway.getPage(id);
 
     return this.mapPageToTask(page);
 

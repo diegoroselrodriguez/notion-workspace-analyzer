@@ -16,10 +16,10 @@ type View =
 export default function App() {
 
   const [project, setProject] =
-    useState("resultados");
+    useState("");
 
   const [view, setView] =
-    useState<View>("project");
+    useState<View>("workspace");
 
   return (
 
@@ -58,7 +58,9 @@ export default function App() {
               icon="🌍"
               title="Visión global"
               subtitle="Departamento"
-              onClick={() => setView("workspace")}
+              onClick={() =>
+                setView("workspace")
+              }
             />
 
             <MenuButton
@@ -66,7 +68,13 @@ export default function App() {
               icon="📁"
               title="Proyecto"
               subtitle="Panel ejecutivo"
-              onClick={() => setView("project")}
+              onClick={() => {
+
+                if (project) {
+                  setView("project");
+                }
+
+              }}
             />
 
             <MenuButton
@@ -74,7 +82,9 @@ export default function App() {
               icon="⚙️"
               title="Cómo funciona"
               subtitle="Arquitectura"
-              onClick={() => setView("architecture")}
+              onClick={() =>
+                setView("architecture")
+              }
             />
 
           </div>
@@ -83,9 +93,9 @@ export default function App() {
 
             <ProjectsSidebar
               selected={project}
-              onSelect={(p) => {
+              onSelect={(projectId) => {
 
-                setProject(p);
+                setProject(projectId);
                 setView("project");
 
               }}
@@ -135,7 +145,11 @@ export default function App() {
 
             ? <ArchitecturePage />
 
-            : <DashboardPage project={project} />
+            : project
+
+              ? <DashboardPage project={project} />
+
+              : <WorkspacePage />
 
       }
 
@@ -167,7 +181,8 @@ function MenuButton({
         active
           ? "bg-blue-600 text-white shadow"
           : "bg-slate-800 text-slate-300 hover:bg-slate-700"
-      }`}>
+      }`}
+    >
 
       <span className="text-lg">
 

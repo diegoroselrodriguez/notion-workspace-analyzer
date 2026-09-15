@@ -1,7 +1,5 @@
 import { NotionGateway } from "../../infrastructure/notion/notion.gateway.js";
-
-const DESIGN_DATA_SOURCE_ID =
-  "4f68b74a-6e4f-495e-8f33-864a3feb3796";
+import { getNotionDesignDataSourceId } from "../../config/notion.config.js";
 
 const gateway = new NotionGateway();
 
@@ -12,7 +10,7 @@ let pageNumber = 1;
 do {
 
   const result = await gateway.queryDataSource(
-    DESIGN_DATA_SOURCE_ID,
+    getNotionDesignDataSourceId(),
     {
       page_size: 100,
       ...(cursor
@@ -38,6 +36,7 @@ do {
 
     console.log(`Proyecto: ${name}`);
     console.log(`ID:       ${page.id}`);
+
     console.log(
       "────────────────────────────────────────────────────────────"
     );

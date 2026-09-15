@@ -2,21 +2,43 @@ import { NotionTaskRepository } from "../../infrastructure/repositories/NotionTa
 
 const repository = new NotionTaskRepository();
 
-const TASKS = [
-  "3b92d23e-2665-8019-ab71-def0075e3361",
-];
+const taskIds = process.argv.slice(2);
 
-for (const id of TASKS) {
+if (taskIds.length === 0) {
 
-  const task = await repository.findById(id);
+  console.error(
+    "Debes indicar al menos un ID de proyecto."
+  );
 
-  console.log("\n================================================");
+  console.error(
+    "Ejemplo: node --import tsx src/inspector/commands/language.command.ts <PROJECT_ID>"
+  );
+
+  process.exit(1);
+
+}
+
+for (const id of taskIds) {
+
+  const task =
+    await repository.findById(id);
+
+  console.log(
+    "\n================================================"
+  );
+
   console.log(task.name);
-  console.log("================================================\n");
+
+  console.log(
+    "================================================\n"
+  );
 
   for (const event of task.events) {
 
-    console.log("----------------------------------------");
+    console.log(
+      "----------------------------------------"
+    );
+
     console.log("Tipo:", event.type);
     console.log("Autor:", event.author);
 

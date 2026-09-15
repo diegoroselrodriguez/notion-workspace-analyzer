@@ -1,1 +1,0 @@
-{"version":3,"file":"WorkflowTransition.d.ts","sourceRoot":"","sources":["WorkflowTransition.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,yBAAyB,CAAC;AACxD,OAAO,EAAE,UAAU,EAAE,MAAM,8BAA8B,CAAC;AAE1D,MAAM,WAAW,kBAAkB;IACjC,IAAI,EAAE,UAAU,CAAC;IACjB,KAAK,EAAE,aAAa,CAAC;IACrB,EAAE,EAAE,UAAU,CAAC;CAChB"}
